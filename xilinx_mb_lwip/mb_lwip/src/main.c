@@ -36,12 +36,10 @@
 #include "netif/etharp.h"
 
 #include "udpecho_raw.h"
-// One cannot fly into flying." That's not mine, that's Nietzsche's.
-// First do UDP, then TCP
-//#include "tcpecho_raw.h"
+#include "tcpecho_raw.h"
 
 static ip_addr_t ipaddr, netmask, gw;
-// RIGHT BEFORE EASTER
+
 int main()
 {
     struct netif netif;
@@ -52,32 +50,22 @@ int main()
 
     u32 ret = init_all();
 
-    print("Good evening from mb_lwip, today is Tuesday, June 5th, 2018\n");
-    print("The time is now 6:52 PM \n");
-#ifdef PROCESSOR_LITTLE_ENDIAN
-    printf("PROCESSOR_LITTLE_ENDIAN = 1\n");
-#else
-    printf("PROCESSOR_LITTLE_ENDIAN = 0\n");
-#endif
-
-    printf("BYTE_ORDER = %d\n", BYTE_ORDER);
-
+    printf("Good afternoon from mb_lwip, today is Friday, January 25th, 2019\n");
+    printf("The time is now 2:49 PM \n");
+    printf("init_all() == %d\n", (int)ret);
 
     lwip_init();
 
     netif_add(&netif, &ipaddr, &netmask, &gw, NULL, tapif_init, ethernet_input);
 
+    printf("CHECKPOINT-1\n");
     netif_set_default(&netif);
-    netif_set_up(&netif);
+
     udpecho_raw_init();
 //    tcpecho_raw_init();
 
-	XGpio_DiscreteWrite(&gpio_2, 2, ret);
-
-	XGpio_DiscreteWrite(&gpio_2, 2, 0xAF); // "Build" number, increment each time
-
-	u32 last_0 = 0;
-	u32 last_1 = 0;
+    netif_set_up(&netif);
+    printf("CHECKPOINT-2\n");
 
     while(1)
     {
@@ -102,20 +90,20 @@ int main()
 //        	}
 //    	}
 
-    	// Leaving this here as a "heartbeat"
-    	// Check GPIO #1
-		u32 gpi_val_0 = XGpio_DiscreteRead(&gpio_1, 1);
-		if(gpi_val_0 != last_0) {
-			last_0 = gpi_val_0;
-			XGpio_DiscreteWrite(&gpio_1, 2, (last_0 + last_0));
-		}
-
-		// Check GPIO #2
-		u32 gpi_val_1 = XGpio_DiscreteRead(&gpio_2, 1);
-		if(gpi_val_1 != last_1) {
-			last_1 = gpi_val_1;
-			XGpio_DiscreteWrite(&gpio_2, 2, (last_1 + last_1));
-		}
+//    	// Leaving this here as a "heartbeat"
+//    	// Check GPIO #1
+//		u32 gpi_val_0 = XGpio_DiscreteRead(&gpio_1, 1);
+//		if(gpi_val_0 != last_0) {
+//			last_0 = gpi_val_0;
+//			XGpio_DiscreteWrite(&gpio_1, 2, (last_0 + last_0));
+//		}
+//
+//		// Check GPIO #2
+//		u32 gpi_val_1 = XGpio_DiscreteRead(&gpio_2, 1);
+//		if(gpi_val_1 != last_1) {
+//			last_1 = gpi_val_1;
+//			XGpio_DiscreteWrite(&gpio_2, 2, (last_1 + last_1));
+//		}
     }
 
 	return 0;

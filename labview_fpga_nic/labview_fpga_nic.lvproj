@@ -1,8 +1,9 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
-<Project Type="Project" LVVersion="17008000">
+<Project Type="Project" LVVersion="18008000">
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">false</Property>
 	<Property Name="NI.Project.Description" Type="Str"></Property>
 	<Item Name="My Computer" Type="My Computer">
+		<Property Name="NI.SortType" Type="Int">3</Property>
 		<Property Name="server.app.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="server.control.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="server.tcp.enabled" Type="Bool">false</Property>
@@ -12,6 +13,14 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
+		<Item Name="Logging" Type="Folder">
+			<Item Name="Logging.Start.vi" Type="VI" URL="../Logging/Logging.Start.vi"/>
+			<Item Name="Logging.Stop.vi" Type="VI" URL="../Logging/Logging.Stop.vi"/>
+		</Item>
+		<Item Name="Actions" Type="Folder">
+			<Item Name="PostBuild.vi" Type="VI" URL="../Actions/PostBuild.vi"/>
+			<Item Name="upload-output-w-bitfile.vi" Type="VI" URL="../../../MicroBlaze_AXI/mb_axi_64/host/actions/upload-output-w-bitfile.vi"/>
+		</Item>
 		<Item Name="Exports" Type="Folder">
 			<Property Name="NI.SortType" Type="Int">3</Property>
 			<Item Name="Open-FpgaNic.vi" Type="VI" URL="../Exports/Open-FpgaNic.vi"/>
@@ -1048,10 +1057,13 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/d_microblaz
 				<Item Name="Process-ARP.vi" Type="VI" URL="../Tests/FPGANic/Process-ARP.vi"/>
 				<Item Name="Split-Input-Stream.vi" Type="VI" URL="../Tests/FPGANic/Split-Input-Stream.vi"/>
 			</Item>
+			<Item Name="SaveToFile.vi" Type="VI" URL="../Tests/SaveToFile.vi"/>
+			<Item Name="Sandbox.vi" Type="VI" URL="../Tests/Sandbox.vi"/>
 		</Item>
 		<Item Name="Utilities" Type="Folder">
 			<Item Name="Converters" Type="Folder">
-				<Item Name="Parse-String-to-U8.vi" Type="VI" URL="../Utilities/Converters/Parse-String-to-U8.vi"/>
+				<Item Name="Convert-U8-for-Logging.vi" Type="VI" URL="../Utilities/Converters/Convert-U8-for-Logging.vi"/>
+				<Item Name="Parse-Hex-String-to-U8.vi" Type="VI" URL="../Utilities/Converters/Parse-Hex-String-to-U8.vi"/>
 			</Item>
 			<Item Name="TcpIp" Type="Folder">
 				<Property Name="NI.SortType" Type="Int">3</Property>
@@ -1071,10 +1083,25 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/d_microblaz
 			<Item Name="U8-Array-to-U32-Array.vi" Type="VI" URL="../Utilities/U8-Array-to-U32-Array.vi"/>
 			<Item Name="U8-Array-to-U64-Array.vi" Type="VI" URL="../Utilities/U8-Array-to-U64-Array.vi"/>
 			<Item Name="U32-Array-to-U8-Array.vi" Type="VI" URL="../Utilities/U32-Array-to-U8-Array.vi"/>
+			<Item Name="U64-Array-to-U8-Array.vi" Type="VI" URL="../Utilities/U64-Array-to-U8-Array.vi"/>
+			<Item Name="IsAtApartment.vi" Type="VI" URL="../Utilities/IsAtApartment.vi"/>
+			<Item Name="Convert-U64-to-String.vi" Type="VI" URL="../Utilities/Convert-U64-to-String.vi"/>
+			<Item Name="Write-U64-for-UART.vi" Type="VI" URL="../Utilities/Write-U64-for-UART.vi"/>
+		</Item>
+		<Item Name="References" Type="Folder">
+			<Item Name="References" Type="Folder"/>
+			<Item Name="SFTP Library" Type="Folder">
+				<Item Name="License" Type="Folder"/>
+				<Item Name="LabSFTP.lvlib" Type="Library" URL="../References/SFTP Library/LabSFTP.lvlib"/>
+			</Item>
+			<Item Name="SSH Library" Type="Folder">
+				<Item Name="License" Type="Folder"/>
+				<Item Name="LabSSH.lvlib" Type="Library" URL="../References/SSH Library/LabSSH.lvlib"/>
+			</Item>
 		</Item>
 		<Item Name="FPGA" Type="FPGA Target">
 			<Property Name="AutoRun" Type="Bool">false</Property>
-			<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+			<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -1151,7 +1178,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/d_microblaz
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -1165,7 +1192,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/d_microblaz
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;64&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -1179,7 +1206,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/d_microblaz
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;32&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -1290,7 +1317,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/d_microblaz
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;8&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -1394,7 +1421,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/d_microblaz
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -1960,7 +1987,7 @@ Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b91
 &lt;/Cluster&gt;
 &lt;/Cluster&gt;
 &lt;/Array&gt;
-gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -2058,7 +2085,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;4&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
 &lt;Name&gt;Generics&lt;/Name&gt;
 &lt;Dimsize&gt;0&lt;/Dimsize&gt;
 &lt;Cluster&gt;
@@ -5360,7 +5387,7 @@ set_property IOSTANDARD LVCMOS25 [get_ports {Si570Clkn}]
 			<Property Name="NI.LV.FPGA.RIO.659XR.POSC.Version" Type="UInt">1</Property>
 			<Property Name="NI.LV.FPGA.Version" Type="Int">6</Property>
 			<Property Name="NI.SortType" Type="Int">3</Property>
-			<Property Name="niFpga_TopLevelVIID" Type="Path">/Z/work/git/LabVIEW_Fpga/07_10_Gigabit/02_FPGANic/FPGA/FPGANic/Fpga-FPGANic-Top.vi</Property>
+			<Property Name="niFpga_TopLevelVIID" Type="Path">/C/work/git/FPGANow/MicroBlaze_lwIP/labview_fpga_nic/FPGA/Fpga-Zero-out-Tkeep-bytes.vi</Property>
 			<Property Name="Resource Name" Type="Str">RIO0</Property>
 			<Property Name="SWEmulationSubMode" Type="UInt">0</Property>
 			<Property Name="SWEmulationVIPath" Type="Path"></Property>
@@ -5413,13 +5440,13 @@ set_property IOSTANDARD LVCMOS25 [get_ports {Si570Clkn}]
 			</Item>
 			<Item Name="Debug.Fifos" Type="Folder">
 				<Item Name="TH-READ_PROBE" Type="FPGA FIFO">
-					<Property Name="Actual Number of Elements" Type="UInt">1023</Property>
+					<Property Name="Actual Number of Elements" Type="UInt">8191</Property>
 					<Property Name="Arbitration for Read" Type="UInt">1</Property>
 					<Property Name="Arbitration for Write" Type="UInt">1</Property>
 					<Property Name="Control Logic" Type="UInt">0</Property>
 					<Property Name="Data Type" Type="UInt">8</Property>
 					<Property Name="Disable on Overflow/Underflow" Type="Bool">false</Property>
-					<Property Name="fifo.configuration" Type="Str">"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"</Property>
+					<Property Name="fifo.configuration" Type="Str">"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"</Property>
 					<Property Name="fifo.configured" Type="Bool">true</Property>
 					<Property Name="fifo.projectItemValid" Type="Bool">true</Property>
 					<Property Name="fifo.valid" Type="Bool">true</Property>
@@ -5429,18 +5456,18 @@ set_property IOSTANDARD LVCMOS25 [get_ports {Si570Clkn}]
 					<Property Name="Memory Type" Type="UInt">2</Property>
 					<Property Name="Number Of Elements Per Read" Type="UInt">1</Property>
 					<Property Name="Number Of Elements Per Write" Type="UInt">1</Property>
-					<Property Name="Requested Number of Elements" Type="UInt">1023</Property>
+					<Property Name="Requested Number of Elements" Type="UInt">8191</Property>
 					<Property Name="Type" Type="UInt">2</Property>
 					<Property Name="Type Descriptor" Type="Str">100080000000000100094008000355363400010000000000000000000000000000</Property>
 				</Item>
 				<Item Name="TH-WRITE_PROBE-1" Type="FPGA FIFO">
-					<Property Name="Actual Number of Elements" Type="UInt">1023</Property>
+					<Property Name="Actual Number of Elements" Type="UInt">8191</Property>
 					<Property Name="Arbitration for Read" Type="UInt">1</Property>
 					<Property Name="Arbitration for Write" Type="UInt">1</Property>
 					<Property Name="Control Logic" Type="UInt">0</Property>
 					<Property Name="Data Type" Type="UInt">8</Property>
 					<Property Name="Disable on Overflow/Underflow" Type="Bool">false</Property>
-					<Property Name="fifo.configuration" Type="Str">"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"</Property>
+					<Property Name="fifo.configuration" Type="Str">"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"</Property>
 					<Property Name="fifo.configured" Type="Bool">true</Property>
 					<Property Name="fifo.projectItemValid" Type="Bool">true</Property>
 					<Property Name="fifo.valid" Type="Bool">true</Property>
@@ -5450,18 +5477,18 @@ set_property IOSTANDARD LVCMOS25 [get_ports {Si570Clkn}]
 					<Property Name="Memory Type" Type="UInt">2</Property>
 					<Property Name="Number Of Elements Per Read" Type="UInt">1</Property>
 					<Property Name="Number Of Elements Per Write" Type="UInt">1</Property>
-					<Property Name="Requested Number of Elements" Type="UInt">1023</Property>
+					<Property Name="Requested Number of Elements" Type="UInt">8191</Property>
 					<Property Name="Type" Type="UInt">2</Property>
 					<Property Name="Type Descriptor" Type="Str">100080000000000100094008000355363400010000000000000000000000000000</Property>
 				</Item>
 				<Item Name="TH-WRITE_PROBE-2" Type="FPGA FIFO">
-					<Property Name="Actual Number of Elements" Type="UInt">1023</Property>
+					<Property Name="Actual Number of Elements" Type="UInt">8191</Property>
 					<Property Name="Arbitration for Read" Type="UInt">1</Property>
 					<Property Name="Arbitration for Write" Type="UInt">1</Property>
 					<Property Name="Control Logic" Type="UInt">0</Property>
 					<Property Name="Data Type" Type="UInt">8</Property>
 					<Property Name="Disable on Overflow/Underflow" Type="Bool">false</Property>
-					<Property Name="fifo.configuration" Type="Str">"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"</Property>
+					<Property Name="fifo.configuration" Type="Str">"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"</Property>
 					<Property Name="fifo.configured" Type="Bool">true</Property>
 					<Property Name="fifo.projectItemValid" Type="Bool">true</Property>
 					<Property Name="fifo.valid" Type="Bool">true</Property>
@@ -5471,56 +5498,14 @@ set_property IOSTANDARD LVCMOS25 [get_ports {Si570Clkn}]
 					<Property Name="Memory Type" Type="UInt">2</Property>
 					<Property Name="Number Of Elements Per Read" Type="UInt">1</Property>
 					<Property Name="Number Of Elements Per Write" Type="UInt">1</Property>
-					<Property Name="Requested Number of Elements" Type="UInt">1023</Property>
+					<Property Name="Requested Number of Elements" Type="UInt">8191</Property>
 					<Property Name="Type" Type="UInt">2</Property>
 					<Property Name="Type Descriptor" Type="Str">100080000000000100094008000355363400010000000000000000000000000000</Property>
-				</Item>
-				<Item Name="TH-DBG_PROBE-1" Type="FPGA FIFO">
-					<Property Name="Actual Number of Elements" Type="UInt">1023</Property>
-					<Property Name="Arbitration for Read" Type="UInt">1</Property>
-					<Property Name="Arbitration for Write" Type="UInt">1</Property>
-					<Property Name="Control Logic" Type="UInt">0</Property>
-					<Property Name="Data Type" Type="UInt">7</Property>
-					<Property Name="Disable on Overflow/Underflow" Type="Bool">false</Property>
-					<Property Name="fifo.configuration" Type="Str">"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"</Property>
-					<Property Name="fifo.configured" Type="Bool">true</Property>
-					<Property Name="fifo.projectItemValid" Type="Bool">true</Property>
-					<Property Name="fifo.valid" Type="Bool">true</Property>
-					<Property Name="fifo.version" Type="Int">12</Property>
-					<Property Name="FPGA.PersistentID" Type="Str">{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}</Property>
-					<Property Name="Local" Type="Bool">false</Property>
-					<Property Name="Memory Type" Type="UInt">2</Property>
-					<Property Name="Number Of Elements Per Read" Type="UInt">1</Property>
-					<Property Name="Number Of Elements Per Write" Type="UInt">1</Property>
-					<Property Name="Requested Number of Elements" Type="UInt">1023</Property>
-					<Property Name="Type" Type="UInt">2</Property>
-					<Property Name="Type Descriptor" Type="Str">1000800000000001000940070003553332000100000000000000000000</Property>
-				</Item>
-				<Item Name="TH-DBG_PROBE-2" Type="FPGA FIFO">
-					<Property Name="Actual Number of Elements" Type="UInt">1023</Property>
-					<Property Name="Arbitration for Read" Type="UInt">1</Property>
-					<Property Name="Arbitration for Write" Type="UInt">1</Property>
-					<Property Name="Control Logic" Type="UInt">0</Property>
-					<Property Name="Data Type" Type="UInt">7</Property>
-					<Property Name="Disable on Overflow/Underflow" Type="Bool">false</Property>
-					<Property Name="fifo.configuration" Type="Str">"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"</Property>
-					<Property Name="fifo.configured" Type="Bool">true</Property>
-					<Property Name="fifo.projectItemValid" Type="Bool">true</Property>
-					<Property Name="fifo.valid" Type="Bool">true</Property>
-					<Property Name="fifo.version" Type="Int">12</Property>
-					<Property Name="FPGA.PersistentID" Type="Str">{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}</Property>
-					<Property Name="Local" Type="Bool">false</Property>
-					<Property Name="Memory Type" Type="UInt">2</Property>
-					<Property Name="Number Of Elements Per Read" Type="UInt">1</Property>
-					<Property Name="Number Of Elements Per Write" Type="UInt">1</Property>
-					<Property Name="Requested Number of Elements" Type="UInt">1023</Property>
-					<Property Name="Type" Type="UInt">2</Property>
-					<Property Name="Type Descriptor" Type="Str">1000800000000001000940070003553332000100000000000000000000</Property>
 				</Item>
 			</Item>
 			<Item Name="States" Type="Folder">
 				<Item Name="AXI4-Pins.ctl" Type="VI" URL="../FPGA/States/AXI4-Pins.ctl">
-					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -5597,7 +5582,7 @@ set_property IOSTANDARD LVCMOS25 [get_ports {Si570Clkn}]
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -5611,7 +5596,7 @@ set_property IOSTANDARD LVCMOS25 [get_ports {Si570Clkn}]
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;64&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -5625,7 +5610,7 @@ set_property IOSTANDARD LVCMOS25 [get_ports {Si570Clkn}]
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;32&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -5736,7 +5721,7 @@ set_property IOSTANDARD LVCMOS25 [get_ports {Si570Clkn}]
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;8&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -5840,7 +5825,7 @@ set_property IOSTANDARD LVCMOS25 [get_ports {Si570Clkn}]
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -6406,7 +6391,7 @@ Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b91
 &lt;/Cluster&gt;
 &lt;/Cluster&gt;
 &lt;/Array&gt;
-gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -6504,7 +6489,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;4&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
 &lt;Name&gt;Generics&lt;/Name&gt;
 &lt;Dimsize&gt;0&lt;/Dimsize&gt;
 &lt;Cluster&gt;
@@ -6590,7 +6575,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 </Property>
 				</Item>
 				<Item Name="FPGANic.Read.States.ctl" Type="VI" URL="../FPGA/States/FPGANic.Read.States.ctl">
-					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -6667,7 +6652,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -6681,7 +6666,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;64&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -6695,7 +6680,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;32&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -6806,7 +6791,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;8&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -6910,7 +6895,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -7476,7 +7461,7 @@ Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b91
 &lt;/Cluster&gt;
 &lt;/Cluster&gt;
 &lt;/Array&gt;
-gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -7574,7 +7559,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;4&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
 &lt;Name&gt;Generics&lt;/Name&gt;
 &lt;Dimsize&gt;0&lt;/Dimsize&gt;
 &lt;Cluster&gt;
@@ -7660,7 +7645,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 </Property>
 				</Item>
 				<Item Name="FPGANic.Write.States.ctl" Type="VI" URL="../FPGA/States/FPGANic.Write.States.ctl">
-					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -7737,7 +7722,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -7751,7 +7736,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;64&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -7765,7 +7750,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;32&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -7876,7 +7861,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;8&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -7980,7 +7965,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -8546,7 +8531,7 @@ Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b91
 &lt;/Cluster&gt;
 &lt;/Cluster&gt;
 &lt;/Array&gt;
-gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -8644,7 +8629,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;4&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
 &lt;Name&gt;Generics&lt;/Name&gt;
 &lt;Dimsize&gt;0&lt;/Dimsize&gt;
 &lt;Cluster&gt;
@@ -8730,7 +8715,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 </Property>
 				</Item>
 				<Item Name="UART.States.1.ctl" Type="VI" URL="../FPGA/States/UART.States.1.ctl">
-					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -8807,7 +8792,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -8821,7 +8806,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;64&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -8835,7 +8820,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;32&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -8946,7 +8931,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;8&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -9050,7 +9035,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -9616,7 +9601,7 @@ Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b91
 &lt;/Cluster&gt;
 &lt;/Cluster&gt;
 &lt;/Array&gt;
-gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -9714,7 +9699,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;4&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
 &lt;Name&gt;Generics&lt;/Name&gt;
 &lt;Dimsize&gt;0&lt;/Dimsize&gt;
 &lt;Cluster&gt;
@@ -9800,7 +9785,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 </Property>
 				</Item>
 				<Item Name="UART.States.2a.ctl" Type="VI" URL="../FPGA/States/UART.States.2a.ctl">
-					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -9877,7 +9862,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -9891,7 +9876,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;64&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -9905,7 +9890,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;32&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -10016,7 +10001,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;8&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -10120,7 +10105,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -10686,7 +10671,7 @@ Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b91
 &lt;/Cluster&gt;
 &lt;/Cluster&gt;
 &lt;/Array&gt;
-gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -10784,7 +10769,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;4&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
 &lt;Name&gt;Generics&lt;/Name&gt;
 &lt;Dimsize&gt;0&lt;/Dimsize&gt;
 &lt;Cluster&gt;
@@ -10872,7 +10857,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 			</Item>
 			<Item Name="UART" Type="Folder">
 				<Item Name="Fpga-Uart-State-Machine.vi" Type="VI" URL="../FPGA/UART/Fpga-Uart-State-Machine.vi">
-					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -10949,7 +10934,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -10963,7 +10948,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;64&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -10977,7 +10962,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;32&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -11088,7 +11073,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;8&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -11192,7 +11177,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -11758,7 +11743,7 @@ Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b91
 &lt;/Cluster&gt;
 &lt;/Cluster&gt;
 &lt;/Array&gt;
-gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -11856,7 +11841,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;4&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
 &lt;Name&gt;Generics&lt;/Name&gt;
 &lt;Dimsize&gt;0&lt;/Dimsize&gt;
 &lt;Cluster&gt;
@@ -11942,7 +11927,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 </Property>
 				</Item>
 				<Item Name="UART.RX.States.2.ctl" Type="VI" URL="../FPGA/UART/UART.RX.States.2.ctl">
-					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -12019,7 +12004,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -12033,7 +12018,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;64&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -12047,7 +12032,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;32&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -12158,7 +12143,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;8&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -12262,7 +12247,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -12828,7 +12813,7 @@ Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b91
 &lt;/Cluster&gt;
 &lt;/Cluster&gt;
 &lt;/Array&gt;
-gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -12926,7 +12911,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;4&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
 &lt;Name&gt;Generics&lt;/Name&gt;
 &lt;Dimsize&gt;0&lt;/Dimsize&gt;
 &lt;Cluster&gt;
@@ -13012,7 +12997,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 </Property>
 				</Item>
 				<Item Name="UART.RX.States.ctl" Type="VI" URL="../FPGA/UART/UART.RX.States.ctl">
-					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+					<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -13089,7 +13074,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -13103,7 +13088,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;64&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -13117,7 +13102,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;32&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -13228,7 +13213,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;8&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -13332,7 +13317,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -13898,7 +13883,7 @@ Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b91
 &lt;/Cluster&gt;
 &lt;/Cluster&gt;
 &lt;/Array&gt;
-gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -13996,7 +13981,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;4&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
 &lt;Name&gt;Generics&lt;/Name&gt;
 &lt;Dimsize&gt;0&lt;/Dimsize&gt;
 &lt;Cluster&gt;
@@ -14082,13 +14067,13 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 </Property>
 				</Item>
 				<Item Name="TH-UART_RX" Type="FPGA FIFO">
-					<Property Name="Actual Number of Elements" Type="UInt">1023</Property>
+					<Property Name="Actual Number of Elements" Type="UInt">16383</Property>
 					<Property Name="Arbitration for Read" Type="UInt">1</Property>
 					<Property Name="Arbitration for Write" Type="UInt">1</Property>
 					<Property Name="Control Logic" Type="UInt">0</Property>
 					<Property Name="Data Type" Type="UInt">5</Property>
 					<Property Name="Disable on Overflow/Underflow" Type="Bool">false</Property>
-					<Property Name="fifo.configuration" Type="Str">"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"</Property>
+					<Property Name="fifo.configuration" Type="Str">"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"</Property>
 					<Property Name="fifo.configured" Type="Bool">true</Property>
 					<Property Name="fifo.projectItemValid" Type="Bool">true</Property>
 					<Property Name="fifo.valid" Type="Bool">true</Property>
@@ -14098,18 +14083,18 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 					<Property Name="Memory Type" Type="UInt">2</Property>
 					<Property Name="Number Of Elements Per Read" Type="UInt">1</Property>
 					<Property Name="Number Of Elements Per Write" Type="UInt">1</Property>
-					<Property Name="Requested Number of Elements" Type="UInt">1023</Property>
+					<Property Name="Requested Number of Elements" Type="UInt">16131</Property>
 					<Property Name="Type" Type="UInt">2</Property>
 					<Property Name="Type Descriptor" Type="Str">1000800000000001000940050002553800000100000000000000</Property>
 				</Item>
 				<Item Name="HT-UART_TX" Type="FPGA FIFO">
-					<Property Name="Actual Number of Elements" Type="UInt">1029</Property>
+					<Property Name="Actual Number of Elements" Type="UInt">16389</Property>
 					<Property Name="Arbitration for Read" Type="UInt">1</Property>
 					<Property Name="Arbitration for Write" Type="UInt">1</Property>
 					<Property Name="Control Logic" Type="UInt">0</Property>
 					<Property Name="Data Type" Type="UInt">5</Property>
 					<Property Name="Disable on Overflow/Underflow" Type="Bool">false</Property>
-					<Property Name="fifo.configuration" Type="Str">"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"</Property>
+					<Property Name="fifo.configuration" Type="Str">"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"</Property>
 					<Property Name="fifo.configured" Type="Bool">true</Property>
 					<Property Name="fifo.projectItemValid" Type="Bool">true</Property>
 					<Property Name="fifo.valid" Type="Bool">true</Property>
@@ -14119,14 +14104,14 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 					<Property Name="Memory Type" Type="UInt">2</Property>
 					<Property Name="Number Of Elements Per Read" Type="UInt">1</Property>
 					<Property Name="Number Of Elements Per Write" Type="UInt">1</Property>
-					<Property Name="Requested Number of Elements" Type="UInt">1023</Property>
+					<Property Name="Requested Number of Elements" Type="UInt">16131</Property>
 					<Property Name="Type" Type="UInt">1</Property>
 					<Property Name="Type Descriptor" Type="Str">1000800000000001000940050002553800000100000000000000</Property>
 				</Item>
 			</Item>
 			<Item Name="Fpga-FPGANic-Top.vi" Type="VI" URL="../FPGA/Fpga-FPGANic-Top.vi">
 				<Property Name="BuildSpec" Type="Str">{63298EAB-FEF5-43B8-871E-DE8C1AC6286D}</Property>
-				<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+				<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -14203,7 +14188,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -14217,7 +14202,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;64&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -14231,7 +14216,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;32&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -14342,7 +14327,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;8&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -14446,7 +14431,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -15012,7 +14997,7 @@ Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b91
 &lt;/Cluster&gt;
 &lt;/Cluster&gt;
 &lt;/Array&gt;
-gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -15110,7 +15095,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;4&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
 &lt;Name&gt;Generics&lt;/Name&gt;
 &lt;Dimsize&gt;0&lt;/Dimsize&gt;
 &lt;Cluster&gt;
@@ -15197,7 +15182,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 				<Property Name="NI.LV.FPGA.InterfaceBitfile" Type="Str">E:\git\02_FPGANic\FPGA Bitfiles\labviewfpganic_FPGA_Fpga-FPGANic-Top_qOwWyq+ZqBs.lvbitx</Property>
 			</Item>
 			<Item Name="Fpga-U8-Array-U64.vi" Type="VI" URL="../FPGA/Fpga-U8-Array-U64.vi">
-				<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+				<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -15274,7 +15259,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -15288,7 +15273,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;64&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -15302,7 +15287,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;32&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -15413,7 +15398,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;8&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -15517,7 +15502,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -16083,7 +16068,7 @@ Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b91
 &lt;/Cluster&gt;
 &lt;/Cluster&gt;
 &lt;/Array&gt;
-gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -16181,7 +16166,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;4&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
 &lt;Name&gt;Generics&lt;/Name&gt;
 &lt;Dimsize&gt;0&lt;/Dimsize&gt;
 &lt;Cluster&gt;
@@ -16267,7 +16252,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 </Property>
 			</Item>
 			<Item Name="Fpga-U64-U8-Array.vi" Type="VI" URL="../FPGA/Fpga-U64-U8-Array.vi">
-				<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+				<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -16344,7 +16329,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -16358,7 +16343,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;64&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -16372,7 +16357,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;32&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9D81C4D5-1819-41C1-8A36-ECB17F1908D7}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
@@ -16483,7 +16468,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;8&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C0E0D1C7-E28A-41FE-8AD6-FF62A171BDB1}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -16587,7 +16572,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;2&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
@@ -17153,7 +17138,7 @@ Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b91
 &lt;/Cluster&gt;
 &lt;/Cluster&gt;
 &lt;/Array&gt;
-gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=1029;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
 &lt;Type&gt;
    &lt;FXP&gt;
       &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
@@ -17251,7 +17236,7 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
       &lt;Unsigned&gt;true&lt;/Unsigned&gt;
       &lt;WordLength&gt;4&lt;/WordLength&gt;
    &lt;/FXP&gt;
-&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-1;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-DBG_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-DBG_PROBE-2;DataType=1000800000000001000940070003553332000100000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=1023;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
 &lt;Name&gt;Generics&lt;/Name&gt;
 &lt;Dimsize&gt;0&lt;/Dimsize&gt;
 &lt;Cluster&gt;
@@ -19402,6 +19387,2146 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 				<Item Name="Dependencies" Type="Dependencies"/>
 				<Item Name="Build Specifications" Type="Build"/>
 			</Item>
+			<Item Name="Fpga-Convert-TKeep-to-TKeep.vi" Type="VI" URL="../FPGA/Fpga-Convert-TKeep-to-TKeep.vi">
+				<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{0D596D0A-32FD-478E-8A87-64000723B6D5}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort0;0;ReadMethodType=bool{0F3129E4-C9AD-4927-A9EF-87164674E650}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{110EDDF7-CEE6-4519-AD3D-C07C381A145C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort0;0;ReadMethodType=bool{11E7C6AC-8A9B-4E88-AB41-ABFE420A3268}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tlast;0;ReadMethodType=bool{131FE025-4F06-4B98-A770-003D199BA979}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cResetDone;0;ReadMethodType=bool{16A64463-7C80-4C9E-84E8-A247CC6C5F9F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32{1B6AE5ED-D79E-45C7-975A-46A88960818C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=bool{1B79B70A-1DE6-4CA6-BD6F-D1B12F5A9529}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tkeep;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{1DD473FC-B929-4E7F-8E12-46CEAAF093A7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWAddrPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{207AB126-90DC-4CAD-850C-654331213D69}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=bool{2275EC80-2834-4108-AC57-35A7B3D5C149}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTLastPort0;0;ReadMethodType=bool{2624CDCC-FB26-4D38-91E6-2087AC7C0B3C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=bool{293B0B56-A401-4353-93A2-D45FC2610EBB}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTUserPort1;0;WriteMethodType=bool{29BBADB4-2A0C-41C8-A0A7-DA3CB4489863}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageRReadyPort0;0;WriteMethodType=bool{2A9170D5-C2EC-40EE-8287-F188D9C82ABA}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{2CF6EDE0-F896-4D5B-A98E-DA1977AC26F5}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tdata;0;WriteMethodType=U32{2D925F12-1E72-48C3-B4E4-24D3D8421600}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=bool{33565F51-0A71-48E5-8E4C-E0BA2A7E9F30}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTValidPort0;0;WriteMethodType=bool{343435E1-B165-4FD4-9FDF-F6C358BB8D9E}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRDataPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{34782DBE-5733-47F5-8BC5-93A1C3C6BDF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=bool{34B5E1EC-804E-4654-9452-6EA1003BEAF2}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRRespPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{3513802F-08F6-4624-BF96-641AC356BE70}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBRespPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{3C119F27-513D-43F0-8C60-A4694FDEDDAA}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTKeepPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{3ED17E61-BDF3-4822-8A12-8C9AA6836309}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort0;0;ReadMethodType=bool{408F6275-47F9-4023-A5FE-605150D40CCD}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTValidPort1;0;WriteMethodType=bool{4330E679-F750-4249-8901-968BDD0E5B71}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tready;0;ReadMethodType=bool{443F6C61-601E-4DCC-A897-FAAFD8F35938}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=bool{4462DA92-C007-4E94-9F51-31B9EAA3DC2A}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tready;0;ReadMethodType=bool{46CB3AFA-B713-41BD-AD9B-FA0D878182E9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTKeepPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{46D49F23-1EDC-4ED7-A902-FCE42E114136}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRRespPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{7A64B922-BB7E-4349-A7BF-58A3AF14D98B}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTDataPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{914CD1B0-E10D-4D0E-A3FA-19B0EFB1DD14}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tvalid;0;WriteMethodType=bool{93307625-8D95-481C-8A0A-19C9F65D56BC}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tdata;0;ReadMethodType=U32{94BE4412-EBB6-4213-8B5D-E533AE09DA3D}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTLastPort0;0;WriteMethodType=bool{95728B1E-137D-45CE-808C-7AF0433EC706}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort1;0;ReadMethodType=bool{957694B1-6E8F-4817-B150-AD7BC2EBAA80}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=bool{95C702D9-6495-457D-963E-6CA0F93B6AE6}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWAddrPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{A1340F55-085D-4E76-AC81-67F24FDA6899}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=bool{A2247671-27C1-4C7F-BACF-654EA5079A35}89e9682fdc97c467057fed9a4ceefaaca673dff26f82047b4439dbfcca64f6fd&lt;Array&gt;
+&lt;Name&gt;Generics&lt;/Name&gt;
+&lt;Dimsize&gt;0&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Generic&lt;/Name&gt;
+&lt;NumElts&gt;5&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Type&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Default value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Description&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+&lt;Array&gt;
+&lt;Name&gt;Clock Connections&lt;/Name&gt;
+&lt;Dimsize&gt;1&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;200000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;1000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;100MHz&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+{A3B64EEC-D6C4-4AE3-8F81-EB0679861381}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort1;0;ReadMethodType=bool{A3D11F00-7FDA-43B3-BEF6-9B6DDE76841E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort0;0;WriteMethodType=bool{A4D1C149-9329-481B-A648-A57CE831B2D0}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=bool{A9FF97F3-AF6A-4718-8E75-08064324C83C}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=bool{AA1A08C4-DD2C-4D7D-8603-538D75967EB5}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=bool{AA423BC6-B0E0-44D0-B004-A150C39A5D69}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=bool{AA834D6C-546E-43FC-8A55-57F5489E1C0D}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=bool{ABF27104-F810-429E-8FD8-8289F230B43D}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageRReadyPort1;0;WriteMethodType=bool{AC65F33A-83C2-42C0-8686-CA4B6CDAE234}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cResetCounterDoneOut;0;ReadMethodType=bool{AFDD7FC9-22A6-469A-8989-F2878081128C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTUserPort0;0;WriteMethodType=bool{B01D0534-D857-4546-A244-093D2309613C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRDataPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{B16C4FF9-609B-46D0-A61A-0702BD569D6A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARValidPort1;0;WriteMethodType=bool{B26A4F94-EEC4-4F92-8BF9-F92D03A4553C}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tvalid;0;ReadMethodType=bool{B3F0FFD0-A5A1-49B5-A952-0532703F009C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageARReadyPort0;0;ReadMethodType=bool{B726E18C-6F91-4886-8D23-21608000A45E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{BB299F96-78D4-4744-9FDC-4F366DEF111A}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTKeepPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{C6E9320A-BB69-4C72-8873-5FA4C827751F}ResourceName=EthernetA_ACoreClk156Out;TopSignalConnect=EthernetA_ACoreClk156Out;ClockSignalName=EthernetA_ACoreClk156Out;MinFreq=156250000.000000;MaxFreq=156250000.000000;VariableFreq=0;NomFreq=156250000.000000;PeakPeriodJitter=150.000000;MinDutyCycle=50.000000;MaxDutyCycle=50.000000;Accuracy=100.000000;RunTime=0;SpreadSpectrum=0;GenericDataHash=D41D8CD98F00B204E9800998ECF8427E;{CAA7F359-E002-47A5-BC1D-62013AE1C8C7}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/ACLK;0;ReadMethodType=bool{CBD8BB2D-2DD0-481A-8F54-7B1E995E3279}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=bool{CD1DA4AE-CE43-45F7-A047-42A603BD3069}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=bool{D0979004-E652-48AA-B99E-E9756F5289AF}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tvalid;0;ReadMethodType=bool{D0A57F2E-A6C5-4003-A5E6-9477B53EC1C4}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tkeep;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{D1DFA20C-3953-4C38-B980-3BD21FE2EFD2}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tlast;0;WriteMethodType=bool{D3479BEB-7FE7-4FEB-B002-82187C4198AB}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTLastPort1;0;WriteMethodType=bool{D4238182-F31F-491D-8B93-58307ABF2A81}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32{D4C3D99E-8E04-4EC4-836D-E8C716D7738F}3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;Name&gt;Generics&lt;/Name&gt;
+&lt;Dimsize&gt;0&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Generic&lt;/Name&gt;
+&lt;NumElts&gt;5&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Type&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Default value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Description&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+&lt;Array&gt;
+&lt;Name&gt;Clock Connections&lt;/Name&gt;
+&lt;Dimsize&gt;1&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;200000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;1000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;100MHz&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+{D6E57F15-59F9-44F5-885A-1C059BE2DAE1}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBRespPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{E0A0C03E-D39A-4626-8EA6-C425A8F550C0}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARValidPort0;0;WriteMethodType=bool{E0F7B480-F4A4-4F00-9662-6062C45729E6}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=bool{E34B3E12-6839-45CD-97CC-037B24A84AF3}ResourceName=40 MHz Onboard Clock;TopSignalConnect=Clk40;ClockSignalName=Clk40;MinFreq=40000000.000000;MaxFreq=40000000.000000;VariableFreq=0;NomFreq=40000000.000000;PeakPeriodJitter=250.000000;MinDutyCycle=50.000000;MaxDutyCycle=50.000000;Accuracy=100.000000;RunTime=0;SpreadSpectrum=0;GenericDataHash=D41D8CD98F00B204E9800998ECF8427E;{E37645F0-4B6E-4A48-B524-8D99027804F8}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort1;0;ReadMethodType=bool{E96D3110-FD7F-4349-8A8B-A8F282801C75}2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b910685295fd73e9a5b50f92c9b47dcb832d47e1201173231ca88caaefe71656d923e6766d55011c4edcac78824aa585ec53dc19357caec2211f4b4ab5dab22b3580e41ee46346668454ba59e0eca13abfeef793d05bf71c22003a8763dcee07c2533971a257523eb9b1a4cfb21e7a0d8c9693862c31a2c73a9a9edbfef&lt;Array&gt;
+&lt;Name&gt;Generics&lt;/Name&gt;
+&lt;Dimsize&gt;0&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Generic&lt;/Name&gt;
+&lt;NumElts&gt;5&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Type&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Default value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Description&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+&lt;Array&gt;
+&lt;Name&gt;Clock Connections&lt;/Name&gt;
+&lt;Dimsize&gt;3&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;CoreClk156Out&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;CoreClk156Out&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;156250000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;156250000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;1&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;1&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;OnboardClk40ToClip&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;OnboardClk40ToClip&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;40000100.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;39999900.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;40 MHz Onboard Clock&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;40 MHz Onboard Clock&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;s_axi_aclk&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;s_axi_aclk&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;300000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;10000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;40 MHz Onboard Clock&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+{E99571AE-6760-4360-A501-30665C2D653A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTKeepPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{EA671576-9655-4201-9F6A-DD07C509926E}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32{EADF6929-7FF1-478A-A254-CD38E456BD92}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageARReadyPort1;0;ReadMethodType=bool{EE9E83D7-0B9F-4E53-B882-C9A9404D3AE1}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{EEF93BAF-BB04-4367-94A2-1E22FA824A4D}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTLastPort1;0;ReadMethodType=bool{EF70C2CF-7442-4425-9A7D-C5624D71D04C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTDataPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{F0C999B2-DBD8-4B0F-B750-B4FB70636851}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=bool{F7314DC0-5283-49CB-97C3-3B84DDE44E78}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32{FAB1CFF8-E38C-4DDA-977D-CA8CE23198FB}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/aBlockLockPort0;0;ReadMethodType=bool{FBE81765-7584-4F3E-8E83-C804E9BE8612}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=bool{FD2622A1-C90D-4B40-9EDA-D3C7C52FF661}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tvalid;0;WriteMethodType=bool{FDA97EEE-5216-4D5C-A2B6-371E615CCA6A}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/aBlockLockPort1;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]</Property>
+				<Property Name="configString.name" Type="Str">100MHzMultiplier=5.000000;Divisor=2.00000040 MHz Onboard ClockResourceName=40 MHz Onboard Clock;TopSignalConnect=Clk40;ClockSignalName=Clk40;MinFreq=40000000.000000;MaxFreq=40000000.000000;VariableFreq=0;NomFreq=40000000.000000;PeakPeriodJitter=250.000000;MinDutyCycle=50.000000;MaxDutyCycle=50.000000;Accuracy=100.000000;RunTime=0;SpreadSpectrum=0;GenericDataHash=D41D8CD98F00B204E9800998ECF8427E;aBlockLockPort0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/aBlockLockPort0;0;ReadMethodType=boolaBlockLockPort1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/aBlockLockPort1;0;ReadMethodType=boolACLKNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/ACLK;0;ReadMethodType=boolAXI_STR_RXD_1_tdataArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32AXI_STR_RXD_1_tkeepArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tkeep;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;AXI_STR_RXD_1_tlastArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=boolAXI_STR_RXD_1_treadyNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tready;0;ReadMethodType=boolAXI_STR_RXD_1_tvalidArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tvalid;0;WriteMethodType=boolAXI_STR_RXD_tdataArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tdata;0;WriteMethodType=U32AXI_STR_RXD_tkeepArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tkeep;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;AXI_STR_RXD_tlastArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tlast;0;WriteMethodType=boolAXI_STR_RXD_treadyNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tready;0;ReadMethodType=boolAXI_STR_RXD_tvalidArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tvalid;0;WriteMethodType=boolAXI_STR_TXD_1_tdataNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32AXI_STR_TXD_1_tkeepNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;AXI_STR_TXD_1_tlastNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=boolAXI_STR_TXD_1_treadyArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=boolAXI_STR_TXD_1_tvalidNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tvalid;0;ReadMethodType=boolAXI_STR_TXD_tdataNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tdata;0;ReadMethodType=U32AXI_STR_TXD_tkeepNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;AXI_STR_TXD_tlastNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tlast;0;ReadMethodType=boolAXI_STR_TXD_treadyArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=boolAXI_STR_TXD_tvalidNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tvalid;0;ReadMethodType=boolCoreClk156OutResourceName=EthernetA_ACoreClk156Out;TopSignalConnect=EthernetA_ACoreClk156Out;ClockSignalName=EthernetA_ACoreClk156Out;MinFreq=156250000.000000;MaxFreq=156250000.000000;VariableFreq=0;NomFreq=156250000.000000;PeakPeriodJitter=150.000000;MinDutyCycle=50.000000;MaxDutyCycle=50.000000;Accuracy=100.000000;RunTime=0;SpreadSpectrum=0;GenericDataHash=D41D8CD98F00B204E9800998ECF8427E;cResetCounterDoneOutNumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cResetCounterDoneOut;0;ReadMethodType=boolcResetDoneNumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cResetDone;0;ReadMethodType=boolcRxTDataPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTDataPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cRxTDataPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTDataPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cRxTKeepPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTKeepPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cRxTKeepPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTKeepPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cRxTLastPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTLastPort0;0;ReadMethodType=boolcRxTLastPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTLastPort1;0;ReadMethodType=boolcRxTUserPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=boolcRxTUserPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort1;0;ReadMethodType=boolcRxTValidPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort0;0;ReadMethodType=boolcRxTValidPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=boolcTxTDataPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cTxTDataPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cTxTKeepPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTKeepPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cTxTKeepPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTKeepPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cTxTLastPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTLastPort0;0;WriteMethodType=boolcTxTLastPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTLastPort1;0;WriteMethodType=boolcTxTReadyPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=boolcTxTReadyPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort1;0;ReadMethodType=boolcTxTUserPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTUserPort0;0;WriteMethodType=boolcTxTUserPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTUserPort1;0;WriteMethodType=boolcTxTValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTValidPort0;0;WriteMethodType=boolcTxTValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTValidPort1;0;WriteMethodType=boolDRAM Bank 089e9682fdc97c467057fed9a4ceefaaca673dff26f82047b4439dbfcca64f6fd&lt;Array&gt;
+&lt;Name&gt;Generics&lt;/Name&gt;
+&lt;Dimsize&gt;0&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Generic&lt;/Name&gt;
+&lt;NumElts&gt;5&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Type&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Default value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Description&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+&lt;Array&gt;
+&lt;Name&gt;Clock Connections&lt;/Name&gt;
+&lt;Dimsize&gt;1&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;200000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;1000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;100MHz&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b910685295fd73e9a5b50f92c9b47dcb832d47e1201173231ca88caaefe71656d923e6766d55011c4edcac78824aa585ec53dc19357caec2211f4b4ab5dab22b3580e41ee46346668454ba59e0eca13abfeef793d05bf71c22003a8763dcee07c2533971a257523eb9b1a4cfb21e7a0d8c9693862c31a2c73a9a9edbfef&lt;Array&gt;
+&lt;Name&gt;Generics&lt;/Name&gt;
+&lt;Dimsize&gt;0&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Generic&lt;/Name&gt;
+&lt;NumElts&gt;5&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Type&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Default value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Description&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+&lt;Array&gt;
+&lt;Name&gt;Clock Connections&lt;/Name&gt;
+&lt;Dimsize&gt;3&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;CoreClk156Out&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;CoreClk156Out&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;156250000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;156250000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;1&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;1&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;OnboardClk40ToClip&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;OnboardClk40ToClip&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;40000100.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;39999900.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;40 MHz Onboard Clock&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;40 MHz Onboard Clock&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;s_axi_aclk&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;s_axi_aclk&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;300000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;10000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;40 MHz Onboard Clock&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageARAddrPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageARReadyPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageARReadyPort0;0;ReadMethodType=boolsManageARReadyPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageARReadyPort1;0;ReadMethodType=boolsManageARValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARValidPort0;0;WriteMethodType=boolsManageARValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARValidPort1;0;WriteMethodType=boolsManageAWAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWAddrPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageAWAddrPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWAddrPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageAWReadyPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=boolsManageAWReadyPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=boolsManageAWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort0;0;WriteMethodType=boolsManageAWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=boolsManageBReadyPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=boolsManageBReadyPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=boolsManageBRespPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBRespPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageBRespPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBRespPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageBValidPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort0;0;ReadMethodType=boolsManageBValidPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=boolsManageRDataPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRDataPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageRDataPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRDataPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageRReadyPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageRReadyPort0;0;WriteMethodType=boolsManageRReadyPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageRReadyPort1;0;WriteMethodType=boolsManageRRespPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRRespPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageRRespPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRRespPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageRValidPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=boolsManageRValidPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort1;0;ReadMethodType=boolsManageWDataPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageWDataPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageWReadyPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort0;0;ReadMethodType=boolsManageWReadyPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=boolsManageWStrbPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageWStrbPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;Name&gt;Generics&lt;/Name&gt;
+&lt;Dimsize&gt;0&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Generic&lt;/Name&gt;
+&lt;NumElts&gt;5&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Type&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Default value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Description&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+&lt;Array&gt;
+&lt;Name&gt;Clock Connections&lt;/Name&gt;
+&lt;Dimsize&gt;1&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;200000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;1000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;100MHz&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+</Property>
+			</Item>
+			<Item Name="Fpga-Zero-out-Tkeep-bytes.vi" Type="VI" URL="../FPGA/Fpga-Zero-out-Tkeep-bytes.vi">
+				<Property Name="configString.guid" Type="Str">{0116C387-7BCE-447D-A4D9-EF1E7D4EB177}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32{01405FBB-327C-4352-B693-D3F81DAC5F87}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=bool{01A8E0C7-09FF-407F-8740-9314E8D9B3E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{05F90E4F-C0F0-415E-A794-0B64937000EF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=bool{0860372E-1E33-4595-8AE7-7069B7208FC3}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=bool{0B3C0038-4B3A-4457-A32B-57BBE6A3E91B}Multiplier=5.000000;Divisor=2.000000{0B60EE39-CAF6-43F7-883F-833DAE54D599}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{0D596D0A-32FD-478E-8A87-64000723B6D5}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort0;0;ReadMethodType=bool{0F3129E4-C9AD-4927-A9EF-87164674E650}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{110EDDF7-CEE6-4519-AD3D-C07C381A145C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort0;0;ReadMethodType=bool{11E7C6AC-8A9B-4E88-AB41-ABFE420A3268}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tlast;0;ReadMethodType=bool{131FE025-4F06-4B98-A770-003D199BA979}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cResetDone;0;ReadMethodType=bool{16A64463-7C80-4C9E-84E8-A247CC6C5F9F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32{1B6AE5ED-D79E-45C7-975A-46A88960818C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=bool{1B79B70A-1DE6-4CA6-BD6F-D1B12F5A9529}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tkeep;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{1DD473FC-B929-4E7F-8E12-46CEAAF093A7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWAddrPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{207AB126-90DC-4CAD-850C-654331213D69}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=bool{2275EC80-2834-4108-AC57-35A7B3D5C149}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTLastPort0;0;ReadMethodType=bool{2624CDCC-FB26-4D38-91E6-2087AC7C0B3C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=bool{293B0B56-A401-4353-93A2-D45FC2610EBB}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTUserPort1;0;WriteMethodType=bool{29BBADB4-2A0C-41C8-A0A7-DA3CB4489863}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageRReadyPort0;0;WriteMethodType=bool{2A9170D5-C2EC-40EE-8287-F188D9C82ABA}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{2CF6EDE0-F896-4D5B-A98E-DA1977AC26F5}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tdata;0;WriteMethodType=U32{2D925F12-1E72-48C3-B4E4-24D3D8421600}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=bool{33565F51-0A71-48E5-8E4C-E0BA2A7E9F30}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTValidPort0;0;WriteMethodType=bool{343435E1-B165-4FD4-9FDF-F6C358BB8D9E}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRDataPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{34782DBE-5733-47F5-8BC5-93A1C3C6BDF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=bool{34B5E1EC-804E-4654-9452-6EA1003BEAF2}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRRespPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{3513802F-08F6-4624-BF96-641AC356BE70}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBRespPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{3C119F27-513D-43F0-8C60-A4694FDEDDAA}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTKeepPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{3ED17E61-BDF3-4822-8A12-8C9AA6836309}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort0;0;ReadMethodType=bool{408F6275-47F9-4023-A5FE-605150D40CCD}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTValidPort1;0;WriteMethodType=bool{4330E679-F750-4249-8901-968BDD0E5B71}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tready;0;ReadMethodType=bool{443F6C61-601E-4DCC-A897-FAAFD8F35938}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=bool{4462DA92-C007-4E94-9F51-31B9EAA3DC2A}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tready;0;ReadMethodType=bool{46CB3AFA-B713-41BD-AD9B-FA0D878182E9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTKeepPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{46D49F23-1EDC-4ED7-A902-FCE42E114136}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRRespPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{46FACE35-78C1-4ECB-A6EC-CB0E0656A49F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=bool{48419D80-B704-4331-8CE8-C3280F30A629}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=bool{489EDF83-55AC-49A0-8DAD-0CD3BAEA4A85}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=bool{4C479712-F91F-44BF-B63C-95279E0A2A6A}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{53194FFF-8D72-4DA8-8041-F4F40EDCD56D}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{55FA181C-041F-4041-A8FC-355CD15BF87E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=bool{58A2557D-3D16-4BB7-8A8A-3D394F9F29E7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=bool{5D9D5E67-E658-48CA-9A13-EEC4CB8B3630}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=bool{5E1C88E7-4CCC-4D6B-9FA2-C93D36BBCB5D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=bool{62929151-50F6-4488-839A-7DDF359C8B4C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=bool{707D4D49-B598-4254-A50B-07D4021851A0}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=bool{7147DBD0-1492-4B20-9072-5D7AEADB289C}"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{73635371-AEC2-4DB1-B0E1-052A3F30355A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=bool{74C18233-2EC4-4222-A560-5A8D8FE5FE98}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=bool{78A85397-7F9D-4BE0-999C-54E733BE6DE9}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{7A64B922-BB7E-4349-A7BF-58A3AF14D98B}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTDataPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{7B53611D-DD63-4DF0-9FC6-63F80B1520C9}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=bool{7C749474-278F-49AE-B969-140F390E5F5E}"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"{83C6E38A-0850-40E9-AD11-85E9C6B0E982}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=bool{854C03CA-5F6B-49FB-9A23-018DBA3422CF}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=bool{86FCF655-2CC1-424C-A88B-3F95AD4C1345}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=bool{8756EFEE-20CC-407B-A6AD-5927A7E317BA}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=bool{8A698EBB-F7FE-4740-A6C9-04802CC474CC}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=bool{8ABA5A35-6708-495A-8313-F3D3A4D21BB7}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{914CD1B0-E10D-4D0E-A3FA-19B0EFB1DD14}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tvalid;0;WriteMethodType=bool{93307625-8D95-481C-8A0A-19C9F65D56BC}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tdata;0;ReadMethodType=U32{94BE4412-EBB6-4213-8B5D-E533AE09DA3D}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTLastPort0;0;WriteMethodType=bool{95728B1E-137D-45CE-808C-7AF0433EC706}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort1;0;ReadMethodType=bool{957694B1-6E8F-4817-B150-AD7BC2EBAA80}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=bool{95C702D9-6495-457D-963E-6CA0F93B6AE6}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWAddrPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{9A1CE3C0-FF3A-4B01-B83F-B8FBFF5BA632}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=bool{9DA14317-A72F-428D-BB1C-B8D1143C26F8}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{A1340F55-085D-4E76-AC81-67F24FDA6899}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=bool{A2247671-27C1-4C7F-BACF-654EA5079A35}89e9682fdc97c467057fed9a4ceefaaca673dff26f82047b4439dbfcca64f6fd&lt;Array&gt;
+&lt;Name&gt;Generics&lt;/Name&gt;
+&lt;Dimsize&gt;0&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Generic&lt;/Name&gt;
+&lt;NumElts&gt;5&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Type&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Default value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Description&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+&lt;Array&gt;
+&lt;Name&gt;Clock Connections&lt;/Name&gt;
+&lt;Dimsize&gt;1&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;200000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;1000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;100MHz&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+{A3B64EEC-D6C4-4AE3-8F81-EB0679861381}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort1;0;ReadMethodType=bool{A3D11F00-7FDA-43B3-BEF6-9B6DDE76841E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort0;0;WriteMethodType=bool{A4D1C149-9329-481B-A648-A57CE831B2D0}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=bool{A9FF97F3-AF6A-4718-8E75-08064324C83C}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=bool{AA1A08C4-DD2C-4D7D-8603-538D75967EB5}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=bool{AA423BC6-B0E0-44D0-B004-A150C39A5D69}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=bool{AA834D6C-546E-43FC-8A55-57F5489E1C0D}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=bool{ABF27104-F810-429E-8FD8-8289F230B43D}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageRReadyPort1;0;WriteMethodType=bool{AC65F33A-83C2-42C0-8686-CA4B6CDAE234}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cResetCounterDoneOut;0;ReadMethodType=bool{AFDD7FC9-22A6-469A-8989-F2878081128C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTUserPort0;0;WriteMethodType=bool{B01D0534-D857-4546-A244-093D2309613C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRDataPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{B16C4FF9-609B-46D0-A61A-0702BD569D6A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARValidPort1;0;WriteMethodType=bool{B26A4F94-EEC4-4F92-8BF9-F92D03A4553C}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tvalid;0;ReadMethodType=bool{B3F0FFD0-A5A1-49B5-A952-0532703F009C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageARReadyPort0;0;ReadMethodType=bool{B726E18C-6F91-4886-8D23-21608000A45E}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{BB299F96-78D4-4744-9FDC-4F366DEF111A}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTKeepPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{BBB31F31-FE2E-4ADE-9E95-7390F26A4F8C}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=bool{BC0EBA3C-7546-4B58-8B53-9D74B29C4024}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=bool{BC1107B8-482E-4A3B-9DCF-1D0DA01EA4E8}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{C6805573-54A1-4FEF-B4C0-8D8DB370553F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32{C6A834EF-5633-4EF9-A1FE-17B6C3602C0F}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{C6E9320A-BB69-4C72-8873-5FA4C827751F}ResourceName=EthernetA_ACoreClk156Out;TopSignalConnect=EthernetA_ACoreClk156Out;ClockSignalName=EthernetA_ACoreClk156Out;MinFreq=156250000.000000;MaxFreq=156250000.000000;VariableFreq=0;NomFreq=156250000.000000;PeakPeriodJitter=150.000000;MinDutyCycle=50.000000;MaxDutyCycle=50.000000;Accuracy=100.000000;RunTime=0;SpreadSpectrum=0;GenericDataHash=D41D8CD98F00B204E9800998ECF8427E;{CAA7F359-E002-47A5-BC1D-62013AE1C8C7}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/ACLK;0;ReadMethodType=bool{CBD8BB2D-2DD0-481A-8F54-7B1E995E3279}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=bool{CD1DA4AE-CE43-45F7-A047-42A603BD3069}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=bool{D0979004-E652-48AA-B99E-E9756F5289AF}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tvalid;0;ReadMethodType=bool{D0A57F2E-A6C5-4003-A5E6-9477B53EC1C4}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tkeep;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{D1DFA20C-3953-4C38-B980-3BD21FE2EFD2}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tlast;0;WriteMethodType=bool{D3479BEB-7FE7-4FEB-B002-82187C4198AB}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTLastPort1;0;WriteMethodType=bool{D4238182-F31F-491D-8B93-58307ABF2A81}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32{D4C3D99E-8E04-4EC4-836D-E8C716D7738F}3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;Name&gt;Generics&lt;/Name&gt;
+&lt;Dimsize&gt;0&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Generic&lt;/Name&gt;
+&lt;NumElts&gt;5&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Type&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Default value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Description&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+&lt;Array&gt;
+&lt;Name&gt;Clock Connections&lt;/Name&gt;
+&lt;Dimsize&gt;1&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;200000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;1000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;100MHz&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+{D6E57F15-59F9-44F5-885A-1C059BE2DAE1}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBRespPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{D90E4B48-666A-4707-93C9-9829D4E554AF}"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"{DF179374-975A-4223-A360-C0B7899D8BF9}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=bool{E033FA2E-10D9-4C67-A20A-5FF2C3DC420D}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{E0A0C03E-D39A-4626-8EA6-C425A8F550C0}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARValidPort0;0;WriteMethodType=bool{E0F7B480-F4A4-4F00-9662-6062C45729E6}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=bool{E34B3E12-6839-45CD-97CC-037B24A84AF3}ResourceName=40 MHz Onboard Clock;TopSignalConnect=Clk40;ClockSignalName=Clk40;MinFreq=40000000.000000;MaxFreq=40000000.000000;VariableFreq=0;NomFreq=40000000.000000;PeakPeriodJitter=250.000000;MinDutyCycle=50.000000;MaxDutyCycle=50.000000;Accuracy=100.000000;RunTime=0;SpreadSpectrum=0;GenericDataHash=D41D8CD98F00B204E9800998ECF8427E;{E37645F0-4B6E-4A48-B524-8D99027804F8}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort1;0;ReadMethodType=bool{E96D3110-FD7F-4349-8A8B-A8F282801C75}2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b910685295fd73e9a5b50f92c9b47dcb832d47e1201173231ca88caaefe71656d923e6766d55011c4edcac78824aa585ec53dc19357caec2211f4b4ab5dab22b3580e41ee46346668454ba59e0eca13abfeef793d05bf71c22003a8763dcee07c2533971a257523eb9b1a4cfb21e7a0d8c9693862c31a2c73a9a9edbfef&lt;Array&gt;
+&lt;Name&gt;Generics&lt;/Name&gt;
+&lt;Dimsize&gt;0&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Generic&lt;/Name&gt;
+&lt;NumElts&gt;5&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Type&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Default value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Description&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+&lt;Array&gt;
+&lt;Name&gt;Clock Connections&lt;/Name&gt;
+&lt;Dimsize&gt;3&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;CoreClk156Out&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;CoreClk156Out&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;156250000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;156250000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;1&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;1&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;OnboardClk40ToClip&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;OnboardClk40ToClip&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;40000100.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;39999900.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;40 MHz Onboard Clock&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;40 MHz Onboard Clock&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;s_axi_aclk&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;s_axi_aclk&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;300000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;10000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;40 MHz Onboard Clock&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+{E99571AE-6760-4360-A501-30665C2D653A}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTKeepPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{EA671576-9655-4201-9F6A-DD07C509926E}NumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32{EADF6929-7FF1-478A-A254-CD38E456BD92}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageARReadyPort1;0;ReadMethodType=bool{EE9E83D7-0B9F-4E53-B882-C9A9404D3AE1}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{EEF93BAF-BB04-4367-94A2-1E22FA824A4D}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTLastPort1;0;ReadMethodType=bool{EF70C2CF-7442-4425-9A7D-C5624D71D04C}NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTDataPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;{F0C999B2-DBD8-4B0F-B750-B4FB70636851}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=bool{F7314DC0-5283-49CB-97C3-3B84DDE44E78}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32{FAB1CFF8-E38C-4DDA-977D-CA8CE23198FB}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/aBlockLockPort0;0;ReadMethodType=bool{FBE81765-7584-4F3E-8E83-C804E9BE8612}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=bool{FD2622A1-C90D-4B40-9EDA-D3C7C52FF661}ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tvalid;0;WriteMethodType=bool{FDA97EEE-5216-4D5C-A2B6-371E615CCA6A}NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/aBlockLockPort1;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]</Property>
+				<Property Name="configString.name" Type="Str">100MHzMultiplier=5.000000;Divisor=2.00000040 MHz Onboard ClockResourceName=40 MHz Onboard Clock;TopSignalConnect=Clk40;ClockSignalName=Clk40;MinFreq=40000000.000000;MaxFreq=40000000.000000;VariableFreq=0;NomFreq=40000000.000000;PeakPeriodJitter=250.000000;MinDutyCycle=50.000000;MaxDutyCycle=50.000000;Accuracy=100.000000;RunTime=0;SpreadSpectrum=0;GenericDataHash=D41D8CD98F00B204E9800998ECF8427E;aBlockLockPort0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/aBlockLockPort0;0;ReadMethodType=boolaBlockLockPort1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/aBlockLockPort1;0;ReadMethodType=boolACLKNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/ACLK;0;ReadMethodType=boolAXI_STR_RXD_1_tdataArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tdata;0;WriteMethodType=U32AXI_STR_RXD_1_tkeepArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tkeep;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;AXI_STR_RXD_1_tlastArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tlast;0;WriteMethodType=boolAXI_STR_RXD_1_treadyNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tready;0;ReadMethodType=boolAXI_STR_RXD_1_tvalidArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_1_tvalid;0;WriteMethodType=boolAXI_STR_RXD_tdataArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tdata;0;WriteMethodType=U32AXI_STR_RXD_tkeepArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tkeep;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;AXI_STR_RXD_tlastArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tlast;0;WriteMethodType=boolAXI_STR_RXD_treadyNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tready;0;ReadMethodType=boolAXI_STR_RXD_tvalidArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_RXD_tvalid;0;WriteMethodType=boolAXI_STR_TXD_1_tdataNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tdata;0;ReadMethodType=U32AXI_STR_TXD_1_tkeepNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tkeep;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;AXI_STR_TXD_1_tlastNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tlast;0;ReadMethodType=boolAXI_STR_TXD_1_treadyArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tready;0;WriteMethodType=boolAXI_STR_TXD_1_tvalidNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_1_tvalid;0;ReadMethodType=boolAXI_STR_TXD_tdataNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tdata;0;ReadMethodType=U32AXI_STR_TXD_tkeepNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tkeep;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;AXI_STR_TXD_tlastNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tlast;0;ReadMethodType=boolAXI_STR_TXD_treadyArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tready;0;WriteMethodType=boolAXI_STR_TXD_tvalidNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/AXI_STR_TXD_tvalid;0;ReadMethodType=boolCoreClk156OutResourceName=EthernetA_ACoreClk156Out;TopSignalConnect=EthernetA_ACoreClk156Out;ClockSignalName=EthernetA_ACoreClk156Out;MinFreq=156250000.000000;MaxFreq=156250000.000000;VariableFreq=0;NomFreq=156250000.000000;PeakPeriodJitter=150.000000;MinDutyCycle=50.000000;MaxDutyCycle=50.000000;Accuracy=100.000000;RunTime=0;SpreadSpectrum=0;GenericDataHash=D41D8CD98F00B204E9800998ECF8427E;cResetCounterDoneOutNumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cResetCounterDoneOut;0;ReadMethodType=boolcResetDoneNumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cResetDone;0;ReadMethodType=boolcRxTDataPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTDataPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cRxTDataPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTDataPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cRxTKeepPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTKeepPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cRxTKeepPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTKeepPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cRxTLastPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTLastPort0;0;ReadMethodType=boolcRxTLastPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTLastPort1;0;ReadMethodType=boolcRxTUserPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort0;0;ReadMethodType=boolcRxTUserPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTUserPort1;0;ReadMethodType=boolcRxTValidPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort0;0;ReadMethodType=boolcRxTValidPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cRxTValidPort1;0;ReadMethodType=boolcTxTDataPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cTxTDataPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTDataPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;64&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;64&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cTxTKeepPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTKeepPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cTxTKeepPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTKeepPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;8&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;8&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;cTxTLastPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTLastPort0;0;WriteMethodType=boolcTxTLastPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTLastPort1;0;WriteMethodType=boolcTxTReadyPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort0;0;ReadMethodType=boolcTxTReadyPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/cTxTReadyPort1;0;ReadMethodType=boolcTxTUserPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTUserPort0;0;WriteMethodType=boolcTxTUserPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTUserPort1;0;WriteMethodType=boolcTxTValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTValidPort0;0;WriteMethodType=boolcTxTValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/cTxTValidPort1;0;WriteMethodType=boolDRAM Bank 089e9682fdc97c467057fed9a4ceefaaca673dff26f82047b4439dbfcca64f6fd&lt;Array&gt;
+&lt;Name&gt;Generics&lt;/Name&gt;
+&lt;Dimsize&gt;0&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Generic&lt;/Name&gt;
+&lt;NumElts&gt;5&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Type&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Default value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Description&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+&lt;Array&gt;
+&lt;Name&gt;Clock Connections&lt;/Name&gt;
+&lt;Dimsize&gt;1&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;200000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;1000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;100MHz&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+Ethernet2799d32c0df50de3ef3ffd547e53ee3c336aff6572898aa4e069f3ea4877167b464b1b910685295fd73e9a5b50f92c9b47dcb832d47e1201173231ca88caaefe71656d923e6766d55011c4edcac78824aa585ec53dc19357caec2211f4b4ab5dab22b3580e41ee46346668454ba59e0eca13abfeef793d05bf71c22003a8763dcee07c2533971a257523eb9b1a4cfb21e7a0d8c9693862c31a2c73a9a9edbfef&lt;Array&gt;
+&lt;Name&gt;Generics&lt;/Name&gt;
+&lt;Dimsize&gt;0&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Generic&lt;/Name&gt;
+&lt;NumElts&gt;5&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Type&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Default value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Description&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+&lt;Array&gt;
+&lt;Name&gt;Clock Connections&lt;/Name&gt;
+&lt;Dimsize&gt;3&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;CoreClk156Out&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;CoreClk156Out&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;156250000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;156250000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;1&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;1&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;OnboardClk40ToClip&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;OnboardClk40ToClip&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;40000100.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;39999900.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;40 MHz Onboard Clock&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;40 MHz Onboard Clock&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;s_axi_aclk&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;s_axi_aclk&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;300000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;10000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;40 MHz Onboard Clock&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_0_tri_o;0;ReadMethodType=U32gpio_rtl_1_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_1_tri_i;0;WriteMethodType=U32gpio_rtl_2_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/gpio_rtl_2_tri_o;0;ReadMethodType=U32gpio_rtl_tri_iArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/gpio_rtl_tri_i;0;WriteMethodType=U32HT_WRITE"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT_WRITE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"HT-UART_TX"ControlLogic=0;NumberOfElements=16389;Type=1;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;HT-UART_TX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"In0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In0;0;WriteMethodType=boolIn1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/In1;0;WriteMethodType=boolMgtRefClks_LockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Locked;0;ReadMethodType=boolMgtRefClks_ValidNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/MgtRefClks_Valid;0;ReadMethodType=boolPFI0_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI0_In;0;ReadMethodType=boolPFI0_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_Out;0;WriteMethodType=boolPFI0_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI0_OutEnable;0;WriteMethodType=boolPFI1_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI1_In;0;ReadMethodType=boolPFI1_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_Out;0;WriteMethodType=boolPFI1_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI1_OutEnable;0;WriteMethodType=boolPFI2_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI2_In;0;ReadMethodType=boolPFI2_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_Out;0;WriteMethodType=boolPFI2_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI2_OutEnable;0;WriteMethodType=boolPFI3_InNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PFI3_In;0;ReadMethodType=boolPFI3_OutArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_Out;0;WriteMethodType=boolPFI3_OutEnableArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/Ethernet/SignalList/PFI3_OutEnable;0;WriteMethodType=boolPllLockedNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/PllLocked;0;ReadMethodType=boolPOSC_CompleteNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/POSC_Complete;0;ReadMethodType=boolPXIe-6592R/Clk40/falsefalsef1851f28606cf5f121af6c548148d889FPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_6592RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin][rSeriesConfig.End]reset_rtlArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/reset_rtl;0;WriteMethodType=boolsignal_detect_Port0NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port0;0;ReadMethodType=boolsignal_detect_Port1NumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/signal_detect_Port1;0;ReadMethodType=boolsManageARAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageARAddrPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARAddrPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageARReadyPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageARReadyPort0;0;ReadMethodType=boolsManageARReadyPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageARReadyPort1;0;ReadMethodType=boolsManageARValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARValidPort0;0;WriteMethodType=boolsManageARValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageARValidPort1;0;WriteMethodType=boolsManageAWAddrPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWAddrPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageAWAddrPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWAddrPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageAWReadyPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort0;0;ReadMethodType=boolsManageAWReadyPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageAWReadyPort1;0;ReadMethodType=boolsManageAWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort0;0;WriteMethodType=boolsManageAWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageAWValidPort1;0;WriteMethodType=boolsManageBReadyPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort0;0;WriteMethodType=boolsManageBReadyPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageBReadyPort1;0;WriteMethodType=boolsManageBRespPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBRespPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageBRespPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBRespPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageBValidPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort0;0;ReadMethodType=boolsManageBValidPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageBValidPort1;0;ReadMethodType=boolsManageRDataPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRDataPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageRDataPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRDataPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageRReadyPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageRReadyPort0;0;WriteMethodType=boolsManageRReadyPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageRReadyPort1;0;WriteMethodType=boolsManageRRespPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRRespPort0;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageRRespPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRRespPort1;0;ReadMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;2&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;2&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageRValidPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort0;0;ReadMethodType=boolsManageRValidPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageRValidPort1;0;ReadMethodType=boolsManageWDataPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageWDataPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWDataPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;32&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;32&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageWReadyPort0NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort0;0;ReadMethodType=boolsManageWReadyPort1NumberOfSyncRegistersForReadInProject=0;resource=/Ethernet/SignalList/sManageWReadyPort1;0;ReadMethodType=boolsManageWStrbPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort0;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageWStrbPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWStrbPort1;0;WriteMethodType=
+&lt;Type&gt;
+   &lt;FXP&gt;
+      &lt;IntegerWordLength&gt;4&lt;/IntegerWordLength&gt;
+      &lt;Unsigned&gt;true&lt;/Unsigned&gt;
+      &lt;WordLength&gt;4&lt;/WordLength&gt;
+   &lt;/FXP&gt;
+&lt;/Type&gt;sManageWValidPort0ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort0;0;WriteMethodType=boolsManageWValidPort1ArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=0;resource=/Ethernet/SignalList/sManageWValidPort1;0;WriteMethodType=boolsPort0_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort0_Power_Good;0;ReadMethodType=boolsPort1_Power_GoodNumberOfSyncRegistersForReadInProject=Auto;resource=/Ethernet/SignalList/sPort1_Power_Good;0;ReadMethodType=boolTH_READ"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH_READ;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-READ_PROBE"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-READ_PROBE;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-UART_RX"ControlLogic=0;NumberOfElements=16383;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-UART_RX;DataType=1000800000000001000940050002553800000100000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-1"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-1;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"TH-WRITE_PROBE-2"ControlLogic=0;NumberOfElements=8191;Type=2;ReadArbs=Arbitrate if Multiple Requestors Only;ElementsPerRead=1;WriteArbs=Arbitrate if Multiple Requestors Only;ElementsPerWrite=1;Implementation=2;TH-WRITE_PROBE-2;DataType=100080000000000100094008000355363400010000000000000000000000000000;DisableOnOverflowUnderflow=FALSE"uart_rtl_rxdArbitrationForOutputData=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;resource=/UserRTL_microblaze/SignalList/uart_rtl_rxd;0;WriteMethodType=booluart_rtl_txdNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_microblaze/SignalList/uart_rtl_txd;0;ReadMethodType=boolUserRTL_microblaze3da50467295fb38baca5551ee7751f5bad4163aa4ddb65a48c7d46f667f2dafd&lt;Array&gt;
+&lt;Name&gt;Generics&lt;/Name&gt;
+&lt;Dimsize&gt;0&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Generic&lt;/Name&gt;
+&lt;NumElts&gt;5&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Type&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Default value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Value&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;Description&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+&lt;Array&gt;
+&lt;Name&gt;Clock Connections&lt;/Name&gt;
+&lt;Dimsize&gt;1&lt;/Dimsize&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock Connection&lt;/Name&gt;
+&lt;NumElts&gt;2&lt;/NumElts&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;CLIP Clock&lt;/Name&gt;
+&lt;NumElts&gt;6&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;LabVIEW name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;String&gt;
+&lt;Name&gt;VHDL name&lt;/Name&gt;
+&lt;Val&gt;clock_rtl&lt;/Val&gt;
+&lt;/String&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Max Freq&lt;/Name&gt;
+&lt;Val&gt;200000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;DBL&gt;
+&lt;Name&gt;Min Freq&lt;/Name&gt;
+&lt;Val&gt;1000000.00000000000000&lt;/Val&gt;
+&lt;/DBL&gt;
+&lt;EW&gt;
+&lt;Name&gt;Direction&lt;/Name&gt;
+&lt;Choice&gt;ToCLIP&lt;/Choice&gt;
+&lt;Choice&gt;FromCLIP&lt;/Choice&gt;
+&lt;Choice&gt;Bidirectional&lt;/Choice&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/EW&gt;
+&lt;String&gt;
+&lt;Name&gt;ClockToLinkTo&lt;/Name&gt;
+&lt;Val&gt;&lt;/Val&gt;
+&lt;/String&gt;
+&lt;/Cluster&gt;
+&lt;Cluster&gt;
+&lt;Name&gt;FPGA Clock&lt;/Name&gt;
+&lt;NumElts&gt;3&lt;/NumElts&gt;
+&lt;String&gt;
+&lt;Name&gt;Name&lt;/Name&gt;
+&lt;Val&gt;100MHz&lt;/Val&gt;
+&lt;/String&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Use Top Clock&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;Boolean&gt;
+&lt;Name&gt;Clock From CLIP&lt;/Name&gt;
+&lt;Val&gt;0&lt;/Val&gt;
+&lt;/Boolean&gt;
+&lt;/Cluster&gt;
+&lt;/Cluster&gt;
+&lt;/Array&gt;
+</Property>
+			</Item>
 			<Item Name="Dependencies" Type="Dependencies">
 				<Property Name="NI.SortType" Type="Int">1</Property>
 				<Item Name="instr.lib" Type="Folder">
@@ -19485,142 +21610,125 @@ gpio_rtl_0_tri_oNumberOfSyncRegistersForReadInProject=Auto;resource=/UserRTL_mic
 				</Item>
 			</Item>
 		</Item>
-		<Item Name="Sandbox.vi" Type="VI" URL="../Tests/Sandbox.vi"/>
-		<Item Name="SaveToFile.vi" Type="VI" URL="../Tests/SaveToFile.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
+			<Item Name="vi.lib" Type="Folder">
+				<Item Name="Application Directory.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Application Directory.vi"/>
+				<Item Name="Check if File or Folder Exists.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/libraryn.llb/Check if File or Folder Exists.vi"/>
+				<Item Name="Error Cluster From Error Code.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Error Cluster From Error Code.vi"/>
+				<Item Name="Logger.lvlib" Type="Library" URL="/&lt;vilib&gt;/Field R&amp;D Services/Logger/Logger.lvlib"/>
+				<Item Name="NI_FileType.lvlib" Type="Library" URL="/&lt;vilib&gt;/Utility/lvfile.llb/NI_FileType.lvlib"/>
+				<Item Name="NI_PackedLibraryUtility.lvlib" Type="Library" URL="/&lt;vilib&gt;/Utility/LVLibp/NI_PackedLibraryUtility.lvlib"/>
+				<Item Name="Space Constant.vi" Type="VI" URL="/&lt;vilib&gt;/dlg_ctls.llb/Space Constant.vi"/>
+				<Item Name="Trim Whitespace.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Trim Whitespace.vi"/>
+				<Item Name="whitespace.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/whitespace.ctl"/>
+				<Item Name="subFile Dialog.vi" Type="VI" URL="/&lt;vilib&gt;/express/express input/FileDialogBlock.llb/subFile Dialog.vi"/>
+				<Item Name="ex_CorrectErrorChain.vi" Type="VI" URL="/&lt;vilib&gt;/express/express shared/ex_CorrectErrorChain.vi"/>
+				<Item Name="Simple Error Handler.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Simple Error Handler.vi"/>
+				<Item Name="DialogType.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/DialogType.ctl"/>
+				<Item Name="General Error Handler.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/General Error Handler.vi"/>
+				<Item Name="DialogTypeEnum.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/DialogTypeEnum.ctl"/>
+				<Item Name="General Error Handler Core CORE.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/General Error Handler Core CORE.vi"/>
+				<Item Name="Check Special Tags.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Check Special Tags.vi"/>
+				<Item Name="TagReturnType.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/TagReturnType.ctl"/>
+				<Item Name="Set String Value.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Set String Value.vi"/>
+				<Item Name="GetRTHostConnectedProp.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/GetRTHostConnectedProp.vi"/>
+				<Item Name="Error Code Database.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Error Code Database.vi"/>
+				<Item Name="Format Message String.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Format Message String.vi"/>
+				<Item Name="Find Tag.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Find Tag.vi"/>
+				<Item Name="Search and Replace Pattern.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Search and Replace Pattern.vi"/>
+				<Item Name="Set Bold Text.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Set Bold Text.vi"/>
+				<Item Name="Details Display Dialog.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Details Display Dialog.vi"/>
+				<Item Name="ErrWarn.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/ErrWarn.ctl"/>
+				<Item Name="eventvkey.ctl" Type="VI" URL="/&lt;vilib&gt;/event_ctls.llb/eventvkey.ctl"/>
+				<Item Name="Clear Errors.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Clear Errors.vi"/>
+				<Item Name="Not Found Dialog.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Not Found Dialog.vi"/>
+				<Item Name="Three Button Dialog.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Three Button Dialog.vi"/>
+				<Item Name="Three Button Dialog CORE.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Three Button Dialog CORE.vi"/>
+				<Item Name="LVRectTypeDef.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/miscctls.llb/LVRectTypeDef.ctl"/>
+				<Item Name="Longest Line Length in Pixels.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Longest Line Length in Pixels.vi"/>
+				<Item Name="Convert property node font to graphics font.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Convert property node font to graphics font.vi"/>
+				<Item Name="Get Text Rect.vi" Type="VI" URL="/&lt;vilib&gt;/picture/picture.llb/Get Text Rect.vi"/>
+				<Item Name="Get String Text Bounds.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Get String Text Bounds.vi"/>
+				<Item Name="LVBoundsTypeDef.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/miscctls.llb/LVBoundsTypeDef.ctl"/>
+				<Item Name="BuildHelpPath.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/BuildHelpPath.vi"/>
+				<Item Name="GetHelpDir.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/GetHelpDir.vi"/>
+				<Item Name="LVForegroundBackgroundColorsTypeDef.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/miscctls.llb/LVForegroundBackgroundColorsTypeDef.ctl"/>
+				<Item Name="subTimeDelay.vi" Type="VI" URL="/&lt;vilib&gt;/express/express execution control/TimeDelayBlock.llb/subTimeDelay.vi"/>
+			</Item>
 			<Item Name="user.lib" Type="Folder">
 				<Item Name="Multi-line String to Array__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/string/string.llb/Multi-line String to Array__ogtk.vi"/>
+				<Item Name="Convert EOLs__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/string/string.llb/Convert EOLs__ogtk.vi"/>
+				<Item Name="Convert EOLs (String)__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/string/string.llb/Convert EOLs (String)__ogtk.vi"/>
+				<Item Name="Convert EOLs (String Array)__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/string/string.llb/Convert EOLs (String Array)__ogtk.vi"/>
 				<Item Name="String to 1D Array__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/string/string.llb/String to 1D Array__ogtk.vi"/>
-				<Item Name="Trim Whitespace (String)__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/string/string.llb/Trim Whitespace (String)__ogtk.vi"/>
 				<Item Name="Trim Whitespace__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/string/string.llb/Trim Whitespace__ogtk.vi"/>
+				<Item Name="Trim Whitespace (String)__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/string/string.llb/Trim Whitespace (String)__ogtk.vi"/>
+				<Item Name="Trim Whitespace (String Array)__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/string/string.llb/Trim Whitespace (String Array)__ogtk.vi"/>
 			</Item>
-			<Item Name="vi.lib" Type="Folder">
-				<Item Name="Error Cluster From Error Code.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Error Cluster From Error Code.vi"/>
-				<Item Name="Space Constant.vi" Type="VI" URL="/&lt;vilib&gt;/dlg_ctls.llb/Space Constant.vi"/>
-			</Item>
-			<Item Name="fpga_nic.lvbitx" Type="Document" URL="../ProjectExportForVivado/fpga_nic/fpga_nic.lvbitx"/>
 			<Item Name="NiFpgaLv.dll" Type="Document" URL="NiFpgaLv.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
+			<Item Name="mscorlib" Type="VI" URL="mscorlib">
+				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
+			</Item>
+			<Item Name="LabSFTP.dll" Type="Document" URL="../References/References/LabSFTP.dll"/>
+			<Item Name="Renci.SshNet.dll" Type="Document" URL="../References/References/Renci.SshNet.dll"/>
+			<Item Name="LabSSH.dll" Type="Document" URL="../References/References/LabSSH.dll"/>
+			<Item Name="LabSFTP.lvlib" Type="Library" URL="../../../MicroBlaze_AXI/mb_axi_64/host/libraries/SFTP Library/LabSFTP.lvlib"/>
+			<Item Name="LabSFTP.dll" Type="Document" URL="../../../MicroBlaze_AXI/mb_axi_64/host/libraries/References/LabSFTP.dll"/>
+			<Item Name="Renci.SshNet.dll" Type="Document" URL="../../../MicroBlaze_AXI/mb_axi_64/host/libraries/References/Renci.SshNet.dll"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build">
-			<Item Name="FPGANic2.net" Type=".NET Interop Assembly">
+			<Item Name="FPGATester" Type="EXE">
 				<Property Name="App_copyErrors" Type="Bool">true</Property>
-				<Property Name="App_INI_aliasGUID" Type="Str">{5D9AABFF-27E2-49A4-869E-F6E749DD304F}</Property>
-				<Property Name="App_INI_GUID" Type="Str">{59DB9DBC-A376-4715-98DD-67196DFDDD51}</Property>
+				<Property Name="App_INI_aliasGUID" Type="Str">{1A6A831C-D8C1-4393-A3B9-D7FC86FFF4B0}</Property>
+				<Property Name="App_INI_GUID" Type="Str">{ED3F9892-84B2-4793-A928-E1236BD2C26F}</Property>
 				<Property Name="App_serverConfig.httpPort" Type="Int">8002</Property>
 				<Property Name="Bld_autoIncrement" Type="Bool">true</Property>
-				<Property Name="Bld_buildCacheID" Type="Str">{8FA1DBBC-13B9-4CDC-8C12-BCDD80B931DD}</Property>
-				<Property Name="Bld_buildSpecName" Type="Str">FPGANic2.net</Property>
+				<Property Name="Bld_buildCacheID" Type="Str">{8837C655-680E-483E-8517-341994AAEF17}</Property>
+				<Property Name="Bld_buildSpecName" Type="Str">FPGATester</Property>
 				<Property Name="Bld_excludeInlineSubVIs" Type="Bool">true</Property>
 				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
 				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
-				<Property Name="Bld_localDestDir" Type="Path">../builds/NI_AB_PROJECTNAME/FPGANic2.net</Property>
+				<Property Name="Bld_localDestDir" Type="Path">../builds/NI_AB_PROJECTNAME/FPGATester</Property>
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
-				<Property Name="Bld_previewCacheID" Type="Str">{427A47BA-709F-47FE-A2FB-A53C3FFCB044}</Property>
-				<Property Name="Bld_version.build" Type="Int">2</Property>
+				<Property Name="Bld_postActionVIID" Type="Ref">/My Computer/Actions/PostBuild.vi</Property>
+				<Property Name="Bld_previewCacheID" Type="Str">{365F24AB-F67F-49BD-96F6-BEC97136D379}</Property>
+				<Property Name="Bld_userLogFile" Type="Path">../builds/labview_fpga_nic/FPGATester/labview_fpga_nic_FPGATester_log.txt</Property>
+				<Property Name="Bld_userLogFile.pathType" Type="Str">relativeToCommon</Property>
+				<Property Name="Bld_version.build" Type="Int">201</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
-				<Property Name="Destination[0].destName" Type="Str">FPGANic2.net.dll</Property>
-				<Property Name="Destination[0].path" Type="Path">../builds/NI_AB_PROJECTNAME/FPGANic2.net/FPGANic2.net.dll</Property>
+				<Property Name="Destination[0].destName" Type="Str">FPGATester.exe</Property>
+				<Property Name="Destination[0].path" Type="Path">../builds/NI_AB_PROJECTNAME/FPGATester/FPGATester.exe</Property>
 				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
 				<Property Name="Destination[0].type" Type="Str">App</Property>
 				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
-				<Property Name="Destination[1].path" Type="Path">../builds/NI_AB_PROJECTNAME/FPGANic2.net/data</Property>
+				<Property Name="Destination[1].path" Type="Path">../builds/NI_AB_PROJECTNAME/FPGATester/data</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="DotNET2011CompatibilityMode" Type="Bool">false</Property>
-				<Property Name="DotNETAssembly_ClassName" Type="Str">FPGANic2</Property>
-				<Property Name="DotNETAssembly_delayOSMsg" Type="Bool">true</Property>
-				<Property Name="DotNETAssembly_Namespace" Type="Str">com.stratoudakis</Property>
-				<Property Name="DotNETAssembly_signAssembly" Type="Bool">false</Property>
-				<Property Name="DotNETAssembly_StrongNameKeyFileItemID" Type="Ref"></Property>
-				<Property Name="DotNETAssembly_StrongNameKeyGUID" Type="Str">{332681D3-D3EC-4C5B-8C01-8E2C7260516B}</Property>
-				<Property Name="Source[0].itemID" Type="Str">{42BADFEA-B41A-4FB3-AC44-6458DD2E5CA8}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{92CF03CF-749F-40A9-912C-74BD42A7CFC8}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
-				<Property Name="Source[1].ExportedAssemblyVI.VIProtoInfo[0]MethodName" Type="Str">Open___45FpgaNic</Property>
-				<Property Name="Source[1].ExportedAssemblyVI.VIProtoInfo[0]VIName" Type="Str">Open-FpgaNic.vi</Property>
-				<Property Name="Source[1].ExportedAssemblyVI.VIProtoInfo[0]VIProtoConNum" Type="Int">-1</Property>
-				<Property Name="Source[1].ExportedAssemblyVI.VIProtoInfo[0]VIProtoDataType" Type="Str">void</Property>
-				<Property Name="Source[1].ExportedAssemblyVI.VIProtoInfo[0]VIProtoDir" Type="Int">1</Property>
-				<Property Name="Source[1].ExportedAssemblyVI.VIProtoInfo[0]VIProtoIutputIdx" Type="Int">-1</Property>
-				<Property Name="Source[1].ExportedAssemblyVI.VIProtoInfo[0]VIProtoName" Type="Str">returnvalue</Property>
-				<Property Name="Source[1].ExportedAssemblyVI.VIProtoInfo[0]VIProtoOutputIdx" Type="Int">-1</Property>
-				<Property Name="Source[1].ExportedAssemblyVI.VIProtoInfoVIDocumentation" Type="Str"></Property>
-				<Property Name="Source[1].ExportedAssemblyVI.VIProtoInfoVIDocumentationEnabled" Type="Int">0</Property>
-				<Property Name="Source[1].ExportedAssemblyVI.VIProtoInfoVIIsNamesSanitized" Type="Int">1</Property>
-				<Property Name="Source[1].ExportedAssemblyVI.VIProtoInfoVIProtoItemCount" Type="Int">1</Property>
-				<Property Name="Source[1].itemID" Type="Ref">/My Computer/Exports/Open-FpgaNic.vi</Property>
+				<Property Name="Source[1].itemID" Type="Ref">/My Computer/Tests/FPGANic/FPGANic-Tester.vi</Property>
+				<Property Name="Source[1].properties[0].type" Type="Str">Run when opened</Property>
+				<Property Name="Source[1].properties[0].value" Type="Bool">false</Property>
+				<Property Name="Source[1].propertiesCount" Type="Int">1</Property>
 				<Property Name="Source[1].sourceInclusion" Type="Str">TopLevel</Property>
-				<Property Name="Source[1].type" Type="Str">ExportedAssemblyVI</Property>
+				<Property Name="Source[1].type" Type="Str">VI</Property>
+				<Property Name="Source[2].Container.applyInclusion" Type="Bool">true</Property>
+				<Property Name="Source[2].Container.depDestIndex" Type="Int">0</Property>
 				<Property Name="Source[2].destinationIndex" Type="Int">0</Property>
-				<Property Name="Source[2].ExportedAssemblyVI.VIProtoInfo[0]MethodName" Type="Str">Close___45FpgaNic</Property>
-				<Property Name="Source[2].ExportedAssemblyVI.VIProtoInfo[0]VIName" Type="Str">Close-FpgaNic.vi</Property>
-				<Property Name="Source[2].ExportedAssemblyVI.VIProtoInfo[0]VIProtoConNum" Type="Int">-1</Property>
-				<Property Name="Source[2].ExportedAssemblyVI.VIProtoInfo[0]VIProtoDataType" Type="Str">void</Property>
-				<Property Name="Source[2].ExportedAssemblyVI.VIProtoInfo[0]VIProtoDir" Type="Int">1</Property>
-				<Property Name="Source[2].ExportedAssemblyVI.VIProtoInfo[0]VIProtoIutputIdx" Type="Int">-1</Property>
-				<Property Name="Source[2].ExportedAssemblyVI.VIProtoInfo[0]VIProtoName" Type="Str">returnvalue</Property>
-				<Property Name="Source[2].ExportedAssemblyVI.VIProtoInfo[0]VIProtoOutputIdx" Type="Int">-1</Property>
-				<Property Name="Source[2].ExportedAssemblyVI.VIProtoInfoVIDocumentation" Type="Str"></Property>
-				<Property Name="Source[2].ExportedAssemblyVI.VIProtoInfoVIDocumentationEnabled" Type="Int">0</Property>
-				<Property Name="Source[2].ExportedAssemblyVI.VIProtoInfoVIIsNamesSanitized" Type="Int">1</Property>
-				<Property Name="Source[2].ExportedAssemblyVI.VIProtoInfoVIProtoItemCount" Type="Int">1</Property>
-				<Property Name="Source[2].itemID" Type="Ref">/My Computer/Exports/Close-FpgaNic.vi</Property>
-				<Property Name="Source[2].sourceInclusion" Type="Str">TopLevel</Property>
-				<Property Name="Source[2].type" Type="Str">ExportedAssemblyVI</Property>
-				<Property Name="Source[3].destinationIndex" Type="Int">0</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[0]VIProtoConNum" Type="Int">3</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[0]VIProtoDataType" Type="Str">U32</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[0]VIProtoDir" Type="Int">1</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[0]VIProtoIutputIdx" Type="Int">-1</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[0]VIProtoName" Type="Str">returnvalue</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[0]VIProtoOutputIdx" Type="Int">3</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[1]MethodName" Type="Str">Get____45Connection____45Count</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[1]VIName" Type="Str">Get-Connection-Count.vi</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[1]VIProtoConNum" Type="Int">3</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[1]VIProtoDataType" Type="Str">U32</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[1]VIProtoDir" Type="Int">4</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[1]VIProtoIutputIdx" Type="Int">-1</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[1]VIProtoName" Type="Str">NumOfConnections</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfo[1]VIProtoOutputIdx" Type="Int">-1</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfoVIDocumentation" Type="Str"></Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfoVIDocumentationEnabled" Type="Int">0</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfoVIIsNamesSanitized" Type="Int">1</Property>
-				<Property Name="Source[3].ExportedAssemblyVI.VIProtoInfoVIProtoItemCount" Type="Int">2</Property>
-				<Property Name="Source[3].itemID" Type="Ref">/My Computer/Exports/Get-Connection-Count.vi</Property>
-				<Property Name="Source[3].sourceInclusion" Type="Str">TopLevel</Property>
-				<Property Name="Source[3].type" Type="Str">ExportedAssemblyVI</Property>
-				<Property Name="Source[4].destinationIndex" Type="Int">0</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[0]VIProtoConNum" Type="Int">-1</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[0]VIProtoDataType" Type="Str">void</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[0]VIProtoDir" Type="Int">1</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[0]VIProtoIutputIdx" Type="Int">-1</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[0]VIProtoName" Type="Str">returnvalue</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[0]VIProtoOutputIdx" Type="Int">-1</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[1]MethodName" Type="Str">Get___45Version</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[1]VIName" Type="Str">Get-Version.vi</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[1]VIProtoConNum" Type="Int">3</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[1]VIProtoDataType" Type="Str">String</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[1]VIProtoDir" Type="Int">1</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[1]VIProtoIutputIdx" Type="Int">-1</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[1]VIProtoName" Type="Str">Version</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfo[1]VIProtoOutputIdx" Type="Int">3</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfoVIDocumentation" Type="Str"></Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfoVIDocumentationEnabled" Type="Int">0</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfoVIIsNamesSanitized" Type="Int">1</Property>
-				<Property Name="Source[4].ExportedAssemblyVI.VIProtoInfoVIProtoItemCount" Type="Int">2</Property>
-				<Property Name="Source[4].itemID" Type="Ref">/My Computer/Exports/Get-Version.vi</Property>
-				<Property Name="Source[4].sourceInclusion" Type="Str">TopLevel</Property>
-				<Property Name="Source[4].type" Type="Str">ExportedAssemblyVI</Property>
-				<Property Name="SourceCount" Type="Int">5</Property>
+				<Property Name="Source[2].itemID" Type="Ref">/My Computer/Logging</Property>
+				<Property Name="Source[2].sourceInclusion" Type="Str">Include</Property>
+				<Property Name="Source[2].type" Type="Str">Container</Property>
+				<Property Name="SourceCount" Type="Int">3</Property>
 				<Property Name="TgtF_companyName" Type="Str">Automation Laboratory Experts</Property>
-				<Property Name="TgtF_fileDescription" Type="Str">FPGANic2.net</Property>
-				<Property Name="TgtF_internalName" Type="Str">FPGANic2.net</Property>
+				<Property Name="TgtF_fileDescription" Type="Str">FPGATester</Property>
+				<Property Name="TgtF_internalName" Type="Str">FPGATester</Property>
 				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2018 Automation Laboratory Experts</Property>
-				<Property Name="TgtF_productName" Type="Str">FPGANic2.net</Property>
-				<Property Name="TgtF_targetfileGUID" Type="Str">{A6F1AA42-9FFB-493D-9E4B-1CFDF2AC11EB}</Property>
-				<Property Name="TgtF_targetfileName" Type="Str">FPGANic2.net.dll</Property>
+				<Property Name="TgtF_productName" Type="Str">FPGATester</Property>
+				<Property Name="TgtF_targetfileGUID" Type="Str">{CF35751E-95C2-400D-BB35-EB3F69AEE4ED}</Property>
+				<Property Name="TgtF_targetfileName" Type="Str">FPGATester.exe</Property>
 				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
 			</Item>
 		</Item>
