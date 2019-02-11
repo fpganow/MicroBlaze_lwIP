@@ -53,6 +53,9 @@
 
 static struct tcp_pcb *tcpecho_raw_pcb;
 
+static ip_addr_t local_addr;
+static u16_t local_port;
+
 enum tcpecho_raw_states
 {
     ES_NONE = 0,
@@ -81,6 +84,23 @@ static void tcpecho_raw_free(struct tcpecho_raw_state *es)
         }
         mem_free(es);
     }
+}
+
+void tcpecho_raw_user_send(ip_addr_t destIp, u16 destPort, char *payload, u16_t payload_len)
+{
+	printf("\ntcpecho_raw_user_send() called\n");
+	printf("destination address: %d.%d.%d.%d\n",
+				(destIp.addr >>  0) & 0xFF, (destIp.addr >>  8) & 0xFF,
+				(destIp.addr >> 16) & 0xFF, (destIp.addr >> 24) & 0xFF);
+	printf("destPort %d\n", destPort);
+	printf("payload_len = %d %x\n", payload_len, payload_len);
+	for (int i = 0; i < payload_len; i++)
+	{
+		printf("0x%02x, ", (unsigned char)payload[i]);
+		if( (i+1) % 8 == 0)
+			printf("\n");
+	}
+
 }
 
 static void tcpecho_raw_close(struct tcp_pcb *tpcb, struct tcpecho_raw_state *es)
@@ -219,6 +239,7 @@ static err_t tcpecho_raw_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, e
     es = (struct tcpecho_raw_state *)arg;
     if (p == NULL)
     {
+    	printf("tcpecho_raw_recv - REMOTE HOST CLOSED\n");
         /* remote host closed connection */
         es->state = ES_CLOSING;
         if(es->p == NULL)
@@ -236,6 +257,7 @@ static err_t tcpecho_raw_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, e
     else
     if(err != ERR_OK)
     {
+    	printf("tcpecho_raw_recv - != ERR_OK\n");
         /* cleanup, for unknown reason */
         if (p != NULL)
         {
@@ -246,6 +268,7 @@ static err_t tcpecho_raw_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, e
     else
     if(es->state == ES_ACCEPTED)
     {
+    	printf("tcpecho_raw_recv - ES_ACCEPTED\n");
         /* first data chunk in p->payload */
         es->state = ES_RECEIVED;
         /* store reference to incoming pbuf (chain) */
@@ -259,13 +282,14 @@ static err_t tcpecho_raw_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, e
         /* read some more data */
         if(es->p == NULL)
         {
+        	printf("tcpecho_raw_recv - ES_RECEIVED-1\n");
             es->p = p;
             tcpecho_raw_send(tpcb, es);
         }
         else
         {
             struct pbuf *ptr;
-
+            printf("tcpecho_raw_recv - ES_RECEIVED-2\n");
             /* chain pbufs to the end of what we recv'ed previously  */
             ptr = es->p;
             pbuf_cat(ptr,p);
@@ -274,11 +298,13 @@ static err_t tcpecho_raw_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, e
     }
     else
     {
+    	printf("tcpecho_raw_recv - TRASH_DATA\n");
         /* unkown es->state, trash data  */
         tcp_recved(tpcb, p->tot_len);
         pbuf_free(p);
         ret_err = ERR_OK;
     }
+
     return ret_err;
 }
 
@@ -303,6 +329,7 @@ static err_t tcpecho_raw_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
     es = (struct tcpecho_raw_state *)mem_malloc(sizeof(struct tcpecho_raw_state));
     if (es != NULL)
     {
+    	printf("tcpecho_raw_accept - es != NULL\n");
         es->state = ES_ACCEPTED;
         es->pcb = newpcb;
         es->retries = 0;
@@ -317,36 +344,46 @@ static err_t tcpecho_raw_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
     }
     else
     {
+    	printf("tcpecho_raw_accept - es == NULL\n");
         ret_err = ERR_MEM;
     }
     return ret_err;
 }
 
-void tcpecho_raw_init(void)
+void tcpecho_raw_init(u16_t listen_port)
 {
-    printf("tcpecho_raw_init: IPADDR_ANY, port 33514\n");
-
-    //  tcpecho_raw_pcb = tcp_new_ip_type(IPADDR_ANY);
+    printf("tcpecho_raw_init: IPADDR_ANY, port %d\n", listen_port);
     tcpecho_raw_pcb = tcp_new();
+
     if (tcpecho_raw_pcb != NULL)
     {
         err_t err;
 
-        err = tcp_bind(tcpecho_raw_pcb, IPADDR_ANY, 33514);
+        local_port = listen_port;
+        err = tcp_bind(tcpecho_raw_pcb, IPADDR_ANY, local_port);
         if (err == ERR_OK)
         {
         	printf("Calling tcp_listen and tcp_accept to set up callback function\n");
+        	local_addr = tcpecho_raw_pcb->local_ip;
+			local_port = tcpecho_raw_pcb->local_port;
+			printf("local_port %d\n", local_port);
+			printf("local_addr: 0x%x\n", local_addr.addr);
+			printf("local_addr: %d.%d.%d.%d\n",
+					(local_addr.addr >>  0) & 0xFF, (local_addr.addr >>  8) & 0xFF,
+					(local_addr.addr >> 16) & 0xFF, (local_addr.addr >> 24) & 0xFF);
             tcpecho_raw_pcb = tcp_listen(tcpecho_raw_pcb);
             tcp_accept(tcpecho_raw_pcb, tcpecho_raw_accept);
         }
         else
         {
             /* abort? output diagnostic? */
+        	printf("ERROR: tcp_bind() failed with code: %d\n", err);
         }
     }
     else
     {
         /* abort? output diagnostic? */
+    	printf("ERROR: tcp_new() failed\n");
     }
 }
 
